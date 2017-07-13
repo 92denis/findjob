@@ -9,12 +9,12 @@
 </head>
 
 <body>
-    <button onclick="loadPhones()" id="button">Find</button>
+    <p id="result"></p>
+    <button onclick="loadCompanies()" id="button">Load Companies</button>
     <script>
-        function loadPhones() {
+        function loadCompanies() {
             var xhr = new XMLHttpRequest();
-            xhr.open('GET', 'https://dev.by', true);
-            xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
+            xhr.open('GET', 'companies.json', true);
 
             xhr.onreadystatechange = function () { // (3)
                 if (xhr.readyState != 4) return;
@@ -24,9 +24,17 @@
                 if (xhr.status != 200) {
                     alert(xhr.status + ': ' + xhr.statusText);
                 } else {
-                    alert(xhr.responseText);
-                }
+                    var p = document.getElementById('result');
+                    var companies = JSON.parse(xhr.responseText);
+                    companies.forEach(function (company) {
+                        var newElement = document.createElement('P');
 
+                        newElement.innerText = company.name;
+
+                        p.appendChild(newElement);
+
+                    })
+                }
             }
             xhr.send(); // (1)
             button.innerHTML = 'Загружаю...'; // (2)
