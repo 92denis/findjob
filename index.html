@@ -6,10 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ"
+        crossorigin="anonymous">
 </head>
 
 <body>
-    <p id="result"></p>
+    <div id="result"></div>
     <button onclick="loadCompanies()" id="button">Load Companies</button>
     <script>
         function loadCompanies() {
@@ -26,19 +28,43 @@
                 } else {
                     var p = document.getElementById('result');
                     var companies = JSON.parse(xhr.responseText);
-                    companies.forEach(function (company) {
-                        var newElement = document.createElement('P');
+                    companies.forEach(function (company, index) {
+                        var newElement = document.createElement('div');
+                        var id = 'company' + index;
 
-                        newElement.innerText = company.name;
+                        newElement.innerHTML = `<div class="card" id="` + id + `">
+                        <div class="card-header">
+                            Featured
+                        </div>
+                        <div class="card-block">
+                            <h4 class="card-title">Special title treatment</h4>
+                            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                            <button class="btn btn-primary" >Delete</button>
+                        </div>
+                        </div>`;
 
                         p.appendChild(newElement);
 
-                    })
+                        document.getElementById(id).getElementsByClassName('card-header')[0].innerText = company.name;
+                        document.getElementById(id).getElementsByTagName('h4')[0].innerText = company.contacts.site;
+                        document.getElementById(id).getElementsByTagName('p')[0].innerText = company.contacts.email;
+                        document.getElementById(id).getElementsByClassName('btn')[0].onclick = function () {
+                            p.removeChild(newElement); if (p.childNodes.length > 0) {
+                                button.innerHTML = 'Готово'
+                            }
+                            else {
+                                button.innerHTML = '<button onclick="loadCompanies()" id="button">Load Companies</button>';
+                            }
+                           
+                        };
+                        
+                    });
                 }
             }
             xhr.send(); // (1)
             button.innerHTML = 'Загружаю...'; // (2)
             button.disabled = true;
+
         }
     </script>
 </body>
