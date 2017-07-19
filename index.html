@@ -32,15 +32,7 @@
 
                     var companies = JSON.parse(xhr.responseText);
                     addCompany(companies);
-                    document.getElementById(id).getElementsByClassName('btn')[0].onclick = function () {
-                   div.removeChild(div.lastChild);
-                    if (div.childNodes.lastChild) {
-                        button.innerHTML = '<button onclick="loadCompanies()" id="button">Load Companies</button>';
-                    }
-                    else {
-                        button.innerHTML = 'Готово!';
-                    }
-                }
+                    deleteCompany(companies);
                 }
             }
             xhr.send(); // (1)
@@ -71,7 +63,21 @@
             });
         }
 
-       
+        function deleteCompany(companies) {
+            
+            companies.forEach(function (company, index) {
+                
+                document.getElementById(id).getElementsByClassName('btn')[0].onclick = function () {
+                   div.removeChild(div.lastChild);
+                    if (div.childNodes.lastChild) {
+                        button.innerHTML = '<button onclick="loadCompanies()" id="button">Load Companies</button>';
+                    }
+                    else {
+                        button.innerHTML = 'Готово!';
+                    }
+                }
+            });
+        }
     </script>
 </body>
 
