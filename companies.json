@@ -12,5 +12,12 @@
             "email": "info@codemaster.by",
             "site": "http: //codemaster.by"
         }
+    },
+    {
+        "name": "//CODEMASTER",
+        "contacts": {
+            "email": "info@codemaster.by",
+            "site": "http: //dev.by"
+        }
     }
 ]

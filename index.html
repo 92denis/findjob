@@ -32,7 +32,6 @@
 
                     var companies = JSON.parse(xhr.responseText);
                     addCompany(companies);
-                    deleteCompany(companies);
                 }
             }
             xhr.send(); // (1)
@@ -43,8 +42,8 @@
 
         function addCompany(companies) {
             companies.forEach(function (company, index) {
-                 newElement = document.createElement('div');
-                 id = 'company' + index;
+                var newElement = document.createElement('div');
+                var id = 'company' + index;
                 newElement.innerHTML = `<div class="card" id="` + id + `">
                         <div class="card-header">
                             Featured
@@ -60,23 +59,19 @@
                 document.getElementById(id).getElementsByClassName('card-header')[0].innerText = company.name;
                 document.getElementById(id).getElementsByTagName('h4')[0].innerText = company.contacts.site;
                 document.getElementById(id).getElementsByTagName('p')[0].innerText = company.contacts.email;
+                document.getElementById(id).getElementsByClassName('btn')[0].onclick = deleteCompany;
             });
         }
 
-        function deleteCompany(companies) {
-            
-            companies.forEach(function (company, index) {
-                
-                document.getElementById(id).getElementsByClassName('btn')[0].onclick = function () {
-                   div.removeChild(div.lastChild);
-                    if (div.childNodes.lastChild) {
-                        button.innerHTML = '<button onclick="loadCompanies()" id="button">Load Companies</button>';
-                    }
-                    else {
-                        button.innerHTML = 'Готово!';
-                    }
-                }
-            });
+        function deleteCompany(elem) {
+            var card = elem.currentTarget.parentNode.parentNode;
+            card.parentNode.removeChild(card);
+            // if (div.childNodes == 0) {
+            //     button.innerHTML = '<button onclick="loadCompanies()" id="button">Load Companies</button>';
+            // }
+            // else {
+            //     button.innerHTML = 'Готово!';
+            // }
         }
     </script>
 </body>
