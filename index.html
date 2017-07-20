@@ -22,8 +22,9 @@
             xhr.open('GET', 'companies.json', true);
 
             xhr.onreadystatechange = function () { // (3)
-                if (xhr.readyState != 4) return;
-
+                if (xhr.readyState != 4) {
+                    return;
+                }
                 button.innerHTML = 'Готово!';
 
                 if (xhr.status != 200) {
@@ -31,7 +32,7 @@
                 } else {
 
                     var companies = JSON.parse(xhr.responseText);
-                    addCompany(companies);
+                    showCompany(companies);
                 }
             }
             xhr.send(); // (1)
@@ -40,10 +41,12 @@
 
         }
 
-        function addCompany(companies) {
+        function showCompany(companies) {
             companies.forEach(function (company, index) {
                 var newElement = document.createElement('div');
                 var id = 'company' + index;
+
+
                 newElement.innerHTML = `<div class="card" id="` + id + `">
                         <div class="card-header">
                             Featured
@@ -55,11 +58,13 @@
                         </div>
                         </div>`;
 
+
                 div.appendChild(newElement);
-                document.getElementById(id).getElementsByClassName('card-header')[0].innerText = company.name;
-                document.getElementById(id).getElementsByTagName('h4')[0].innerText = company.contacts.site;
-                document.getElementById(id).getElementsByTagName('p')[0].innerText = company.contacts.email;
-                document.getElementById(id).getElementsByClassName('btn')[0].onclick = deleteCompany;
+                var doc = document.getElementById(id);
+                doc.getElementsByClassName('card-header')[0].innerText = company.name;
+                doc.getElementsByTagName('h4')[0].innerText = company.contacts.site;
+                doc.getElementsByTagName('p')[0].innerText = company.contacts.email;
+                doc.getElementsByClassName('btn')[0].onclick = deleteCompany;
             });
         }
 
