@@ -11,49 +11,56 @@
 </head>
 
 <body>
-    <p>Введите название компании: <input type="text" id='search'>
-        <button onclick="searchByName(companies)">Поиск</button>
-    </p>
-    <tr>
-        <p id="count"><p>
-    <div id="result"></div>
+    <div class="row"></div>
+    <div class="col-lg-4">
+        <div class="input-group">
+            <input type="text" class="form-control" id='search' placeholder="Введите название компании...">
+            <span class="input-group-btn">
+        <button class="btn btn-secondary btn-success" onclick="searchByName(companies)" type="button">Go!</button>
+      </span>
+        </div>
+    </div>
+    <hr>
+    <p id="count">
+        <p>
+            <div id="result"></div>
 
-  
-    <script>
-          loadCompanies();
-        var div = document.getElementById('result');
+
+            <script>
+                loadCompanies();
+                var div = document.getElementById('result');
 
 
-        function loadCompanies() {
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', 'companies.json', true);
+                function loadCompanies() {
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('GET', 'companies.json', true);
 
-            xhr.onreadystatechange = function () { // (3)
-                if (xhr.readyState != 4) {
-                    return;
+                    xhr.onreadystatechange = function () { // (3)
+                        if (xhr.readyState != 4) {
+                            return;
+                        }
+
+
+                        if (xhr.status != 200) {
+                            alert(xhr.status + ': ' + xhr.statusText);
+                        } else {
+
+                            companies = JSON.parse(xhr.responseText);
+                            showCompany(companies);
+                        }
+                    }
+                    xhr.send(); // (1)
+
+
                 }
-             
 
-                if (xhr.status != 200) {
-                    alert(xhr.status + ': ' + xhr.statusText);
-                } else {
-
-                    companies = JSON.parse(xhr.responseText);
-                    showCompany(companies);
-                }
-            }
-            xhr.send(); // (1)
-          
-
-        }
-
-        function showCompany(companies) {
-            companies.forEach(function (company, index) {
-                var newElement = document.createElement('div');
-                var id = 'company' + index;
+                function showCompany(companies) {
+                    companies.forEach(function (company, index) {
+                        var newElement = document.createElement('div');
+                        var id = 'company' + index;
 
 
-                newElement.innerHTML = `<div class="card" id="` + id + `">
+                        newElement.innerHTML = `<div class="card" id="` + id + `">
                         
                         <div class="card-header">
                             Featured
@@ -71,49 +78,47 @@
                         </div>`;
 
 
-                div.appendChild(newElement);
-                var doc = document.getElementById(id);
-                doc.getElementsByClassName('card-header')[0].innerText = company.Title;
-                doc.getElementsByTagName('h4')[0].innerHTML = company.Name;
-                doc.getElementsByTagName('p')[0].innerText = "Напрвления: " + company.Tags;
-                doc.getElementsByTagName('p')[1].innerHTML = "Email: " + '<a href="mailto:'+ company.Email+'">' +company.Email+' </a>';
-                doc.getElementsByTagName('p')[2].innerText = "Телефон: " + company.Phone;
-                doc.getElementsByTagName('p')[3].innerHTML = 'Сайт: ' + '<a href="'+company.Url+'">' + company.Url +' </a>';
-                doc.getElementsByTagName('p')[4].innerHTML = "Ссылка dev.by: " +'<a href="'+company.DevByUrl+'">' + company.DevByUrl +' </a>';
-                doc.getElementsByTagName('p')[5].innerText = "Адрес: " + company.Offices;
-                doc.getElementsByClassName('btn')[0].onclick = deleteCompany;
-            });
-        }
+                        div.appendChild(newElement);
+                        var doc = document.getElementById(id);
+                        doc.getElementsByClassName('card-header')[0].innerText = company.Title;
+                        doc.getElementsByTagName('h4')[0].innerHTML = company.Name;
+                        doc.getElementsByTagName('p')[0].innerText = "Напрвления: " + company.Tags;
+                        doc.getElementsByTagName('p')[1].innerHTML = "Email: " + '<a href="mailto:' + company.Email + '">' + company.Email + ' </a>';
+                        doc.getElementsByTagName('p')[2].innerText = "Телефон: " + company.Phone;
+                        doc.getElementsByTagName('p')[3].innerHTML = 'Сайт: ' + '<a href="' + company.Url + '">' + company.Url + ' </a>';
+                        doc.getElementsByTagName('p')[4].innerHTML = "Ссылка dev.by: " + '<a href="' + company.DevByUrl + '">' + company.DevByUrl + ' </a>';
+                        doc.getElementsByTagName('p')[5].innerText = "Адрес: " + company.Offices;
+                        doc.getElementsByClassName('btn')[0].onclick = deleteCompany;
+                    });
+                }
 
-        function deleteCompany(elem) {
-            var card = elem.currentTarget.parentNode.parentNode;
-            card.parentNode.removeChild(card);
-            // if (div.childNodes == 0) {
-            //     button.innerHTML = '<button onclick="loadCompanies()" id="button">Load Companies</button>';
-            // }
-            // else {
-            //     button.innerHTML = 'Готово!';
-            // }
-        }
-        function searchByName(companies) {
-            var countCompanies = document.getElementById("count");
-            var searchString = document.getElementById("search").value;
-            var myExp = new RegExp(searchString, "i");
-          
-            companies.forEach(function (company, index) {
-                 
-                if((company.Name.search(myExp) != -1) ||((company.Title.search(myExp) != -1))){
-                    console.log(company.Name); 
-                     countCompanies.innerHTML = companies.lenght;
-                    
-                     }  
-                    else {
-                            alert("Ничего не найдено! Попробуйте еще раз!");
-                    }                                   
-                
-            });
-        }
-    </script>
+                function deleteCompany(elem) {
+                    var card = elem.currentTarget.parentNode.parentNode;
+                    card.parentNode.removeChild(card);
+                    // if (div.childNodes == 0) {
+                    //     button.innerHTML = '<button onclick="loadCompanies()" id="button">Load Companies</button>';
+                    // }
+                    // else {
+                    //     button.innerHTML = 'Готово!';
+                    // }
+                }
+                function searchByName(companies) {
+                    var countCompanies = document.getElementById("count");
+                    var searchString = document.getElementById("search").value;
+                    var myExp = new RegExp(searchString, "i");
+                    countCompanies.innerHTML = "Найдено компаний: " + companies.length + "/" + companies.length;
+                    var count = 0;
+
+                    companies.forEach(function (company, index) {
+                        
+                        if ((company.Name.search(myExp) != -1) || ((company.Title.search(myExp) != -1))) {
+                            console.log(company.Name); count ++;
+                                                                                 
+                        }
+                        countCompanies.innerHTML = "Найдено компаний: " + count + "/" + companies.length;
+                    });
+                }
+            </script>
 </body>
 
 </html>
