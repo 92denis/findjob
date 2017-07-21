@@ -14,6 +14,8 @@
     <p>Введите название компании: <input type="text" id='search'>
         <button onclick="searchByName(companies)">Поиск</button>
     </p>
+    <tr>
+        <p id="count"><p>
     <div id="result"></div>
 
   
@@ -74,10 +76,10 @@
                 doc.getElementsByClassName('card-header')[0].innerText = company.Title;
                 doc.getElementsByTagName('h4')[0].innerHTML = company.Name;
                 doc.getElementsByTagName('p')[0].innerText = "Напрвления: " + company.Tags;
-                doc.getElementsByTagName('p')[1].innerText = "Email: " + company.Email;
+                doc.getElementsByTagName('p')[1].innerHTML = "Email: " + '<a href="mailto:'+ company.Email+'">' +company.Email+' </a>';
                 doc.getElementsByTagName('p')[2].innerText = "Телефон: " + company.Phone;
-                doc.getElementsByTagName('p')[3].innerText = "Сайт: " + company.Url;
-                doc.getElementsByTagName('p')[4].innerText = "Ссылка dev.by: " + company.DevByUrl;
+                doc.getElementsByTagName('p')[3].innerHTML = 'Сайт: ' + '<a href="'+company.Url+'">' + company.Url +' </a>';
+                doc.getElementsByTagName('p')[4].innerHTML = "Ссылка dev.by: " +'<a href="'+company.DevByUrl+'">' + company.DevByUrl +' </a>';
                 doc.getElementsByTagName('p')[5].innerText = "Адрес: " + company.Offices;
                 doc.getElementsByClassName('btn')[0].onclick = deleteCompany;
             });
@@ -94,12 +96,21 @@
             // }
         }
         function searchByName(companies) {
+            var countCompanies = document.getElementById("count");
             var searchString = document.getElementById("search").value;
             var myExp = new RegExp(searchString, "i");
+          
             companies.forEach(function (company, index) {
+                 
                 if((company.Name.search(myExp) != -1) ||((company.Title.search(myExp) != -1))){
-                    console.log(company.Name);                                       
-                }
+                    console.log(company.Name); 
+                     countCompanies.innerHTML = companies.lenght;
+                    
+                     }  
+                    else {
+                            alert("Ничего не найдено! Попробуйте еще раз!");
+                    }                                   
+                
             });
         }
     </script>
