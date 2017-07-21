@@ -54,6 +54,11 @@
                         <div class="card-block">
                             <h4 class="card-title">Special title treatment</h4>
                             <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                             <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                              <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                               <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                                 <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
                             <button class="btn btn-primary" >Delete</button>
                         </div>
                         </div>`;
@@ -61,9 +66,14 @@
 
                 div.appendChild(newElement);
                 var doc = document.getElementById(id);
-                doc.getElementsByClassName('card-header')[0].innerText = company.name;
-                doc.getElementsByTagName('h4')[0].innerText = company.contacts.site;
-                doc.getElementsByTagName('p')[0].innerText = company.contacts.email;
+                doc.getElementsByClassName('card-header')[0].innerText = company.Title;
+                doc.getElementsByTagName('h4')[0].innerHTML = company.Name;
+                doc.getElementsByTagName('p')[0].innerText = "Напрвления: " + company.Tags;
+                doc.getElementsByTagName('p')[1].innerText = "Email: " + company.Email;
+                doc.getElementsByTagName('p')[2].innerText = "Телефон: " + company.Phone;
+                doc.getElementsByTagName('p')[3].innerText = "Сайт: " + company.Url;
+                doc.getElementsByTagName('p')[4].innerText = "Ссылка dev.by: " + company.DevByUrl;
+                doc.getElementsByTagName('p')[5].innerText = "Адрес: " + company.Offices;
                 doc.getElementsByClassName('btn')[0].onclick = deleteCompany;
             });
         }
