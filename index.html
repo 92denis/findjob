@@ -16,8 +16,9 @@
     </p>
     <div id="result"></div>
 
-    <button onclick="loadCompanies()" id="button">Load Companies</button>
+  
     <script>
+          loadCompanies();
         var div = document.getElementById('result');
 
 
@@ -29,7 +30,7 @@
                 if (xhr.readyState != 4) {
                     return;
                 }
-                button.innerHTML = 'Готово!';
+             
 
                 if (xhr.status != 200) {
                     alert(xhr.status + ': ' + xhr.statusText);
@@ -40,8 +41,7 @@
                 }
             }
             xhr.send(); // (1)
-            button.innerHTML = 'Загружаю...'; // (2)
-            button.disabled = true;
+          
 
         }
 
@@ -97,9 +97,8 @@
             var searchString = document.getElementById("search").value;
             var myExp = new RegExp(searchString, "i");
             companies.forEach(function (company, index) {
-                if (company.Name.search(myExp) != -1) {
-                    console.log(company.Name);
-                                       
+                if((company.Name.search(myExp) != -1) ||((company.Title.search(myExp) != -1))){
+                    console.log(company.Name);                                       
                 }
             });
         }
