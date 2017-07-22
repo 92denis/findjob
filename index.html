@@ -10,16 +10,35 @@
         crossorigin="anonymous">
 </head>
 
-<body>
+<body style="margin-left: 10px;">
     <br>
-    <div class="row"></div>
-    <div class="col-lg-4">
-        <div class="input-group">
+    <P>Выберите параметр поиска:</P>
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="input-group">
+                <span class="input-group-addon">
+            <input type="checkbox" name ="parametr" id ="box1" aria-label="Checkbox for following text input">
+             </span>
+                <span class="input-group-addon">Название </span>
+                <input type="text" class="form-control" id='search1' placeholder="Введите название компании..." aria-label="Text input with checkbox">
+                <!--<div class="input-group">
             <input type="text" class="form-control" id='search' placeholder="Введите название компании...">
-            <span class="input-group-btn">
-        <button class="btn btn-secondary btn-success" onclick="searchByName(companies)" type="button">Go!</button>
-      </span>
+            <span class="input-group-btn">-->
+            </div>
         </div>
+        <div class="col-lg-4">
+            <div class="input-group">
+                <span class="input-group-addon">
+            <input type="checkbox"  name ="parametr" id ="box2" aria-label="Checkbox for following text input">
+             </span>
+                <span class="input-group-addon">Направление</span>
+                <input type="text" class="form-control" id='search2' placeholder="Введите направление компании..." aria-label="Text input with checkbox">
+                <!--<div class="input-group">
+            <input type="text" class="form-control" id='search' placeholder="Введите название компании...">
+            <span class="input-group-btn">-->
+            </div>
+        </div>
+        <button class="btn btn-secondary btn-success" onclick="searchByName(companies)" type="button">Go!</button>
     </div>
     <hr>
     <p id="count">
@@ -53,7 +72,7 @@
 
 
                 }
-                
+
                 function createNewElement(company, index) {
                     var newElement = document.createElement('div');
                     var id = 'company' + index;
@@ -105,17 +124,35 @@
 
                 function searchByName(companies) {
                     var countCompanies = document.getElementById("count");
-                    var searchString = document.getElementById("search").value;
-                    var myExp = new RegExp(searchString, "i");
+                    var searchStringName = document.getElementById("search1").value;
+                    var searchStringTags = document.getElementById("search2").value;
+                    var checkName = document.getElementById("box1");
+                    var checkTags = document.getElementById("box2");
+                    var myExpName = new RegExp(searchStringName, "i");
+                    var myExpTags = new RegExp(searchStringTags, "i");
+
                     countCompanies.innerHTML = "Найдено компаний: " + companies.length + "/" + companies.length;
                     var count = 0;
                     div.innerHTML = "";
 
                     companies.forEach(function (company, index) {
-
-                        if ((company.Name.search(myExp) != -1) || (company.Title.search(myExp) != -1)) {
-                            createNewElement(company, index);
-                            count++;
+                        if (checkName.checked && !checkTags.checked) {
+                            if ((company.Name.search(myExpName) != -1)) {
+                                createNewElement(company, index);
+                                count++;
+                            }
+                        }
+                        else if (checkTags.checked && !checkName.checked ) {
+                            if ((company.Tags[0].search(myExpTags) != -1)) {
+                                createNewElement(company, index);
+                                count++;
+                            }
+                        }
+                        else if (checkTags.checked && checkName.checked ) {
+                            if ( (company.Name.search(myExpName) != -1) && (company.Tags[0].search(myExpTags) != -1)) {
+                                createNewElement(company, index);
+                                count++;
+                            }
                         }
                         countCompanies.innerHTML = "Найдено компаний: " + count + "/" + companies.length;
                     });
