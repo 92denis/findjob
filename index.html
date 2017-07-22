@@ -31,7 +31,6 @@
                 loadCompanies();
                 var div = document.getElementById('result');
 
-
                 function loadCompanies() {
                     var xhr = new XMLHttpRequest();
                     xhr.open('GET', 'companies.json', true);
@@ -54,14 +53,13 @@
 
 
                 }
+                
+                function createNewElement(company, index) {
+                    var newElement = document.createElement('div');
+                    var id = 'company' + index;
 
-                function showCompany(companies) {
-                    companies.forEach(function (company, index) {
-                        var newElement = document.createElement('div');
-                        var id = 'company' + index;
 
-
-                        newElement.innerHTML = `<div class="card" id="` + id + `">
+                    newElement.innerHTML = `<div class="card" id="` + id + `">
                         
                         <div class="card-header">
                             Featured
@@ -79,31 +77,32 @@
                         </div>`;
 
 
-                        div.appendChild(newElement);
-                        var doc = document.getElementById(id);
-                        
-                        doc.getElementsByClassName('card-header')[0].innerText = company.Title;
-                        doc.getElementsByTagName('h4')[0].innerHTML = company.Name;
-                        doc.getElementsByTagName('p')[0].innerText = "Направления: " + company.Tags;
-                        doc.getElementsByTagName('p')[1].innerHTML = "Email: " + '<a href="' + company.Email + '">' + company.Email.substring(7) + ' </a>';
-                        doc.getElementsByTagName('p')[2].innerText = "Телефон: " + company.Phone;
-                        doc.getElementsByTagName('p')[3].innerHTML = 'Сайт: ' + '<a href="' + company.Url + '">' + company.Url + ' </a>';
-                        doc.getElementsByTagName('p')[4].innerHTML = "Ссылка dev.by: " + '<a href="' + company.DevByUrl + '">' + company.DevByUrl + ' </a>';
-                        doc.getElementsByTagName('p')[5].innerText = "Адрес: " + company.Offices;
-                        doc.getElementsByClassName('btn')[0].onclick = deleteCompany;
+                    div.appendChild(newElement);
+                    var doc = document.getElementById(id);
+
+                    doc.getElementsByClassName('card-header')[0].innerText = company.Title;
+                    doc.getElementsByTagName('h4')[0].innerHTML = company.Name;
+                    doc.getElementsByTagName('p')[0].innerText = "Направления: " + company.Tags;
+                    doc.getElementsByTagName('p')[1].innerHTML = "Email: " + '<a href="' + company.Email + '">' + company.Email.substring(7) + ' </a>';
+                    doc.getElementsByTagName('p')[2].innerText = "Телефон: " + company.Phone;
+                    doc.getElementsByTagName('p')[3].innerHTML = 'Сайт: ' + '<a href="' + company.Url + '">' + company.Url + ' </a>';
+                    doc.getElementsByTagName('p')[4].innerHTML = "Ссылка dev.by: " + '<a href="' + company.DevByUrl + '">' + company.DevByUrl + ' </a>';
+                    doc.getElementsByTagName('p')[5].innerText = "Адрес: " + company.Offices;
+                    doc.getElementsByClassName('btn')[0].onclick = deleteCompany;
+
+                }
+
+                function showCompany(companies) {
+                    companies.forEach(function (company, index) {
+                        createNewElement(company, index);
                     });
                 }
 
                 function deleteCompany(elem) {
                     var card = elem.currentTarget.parentNode.parentNode;
                     card.parentNode.removeChild(card);
-                    // if (div.childNodes == 0) {
-                    //     button.innerHTML = '<button onclick="loadCompanies()" id="button">Load Companies</button>';
-                    // }
-                    // else {
-                    //     button.innerHTML = 'Готово!';
-                    // }
                 }
+
                 function searchByName(companies) {
                     var countCompanies = document.getElementById("count");
                     var searchString = document.getElementById("search").value;
@@ -111,39 +110,13 @@
                     countCompanies.innerHTML = "Найдено компаний: " + companies.length + "/" + companies.length;
                     var count = 0;
                     div.innerHTML = "";
-                     
+
                     companies.forEach(function (company, index) {
-                      
 
-                      if ((company.Name.search(myExp) != -1) || (company.Title.search(myExp) != -1)) {
-                            console.log(company.Name);
-                            var id = 'company' + index;
-                            var showSearch = document.createElement('div');
-
-                            showSearch.innerHTML = ` 
-                                            <ul class="list-group" id="` + id + `">
-                            <li class="list-group-item active">Cras justo odio</li>
-                            <li class="list-group-item">Dapibus ac facilisis in</li>
-                            <li class="list-group-item">Morbi leo risus</li>
-                            <li class="list-group-item">Porta ac consectetur ac</li>
-                            <li class="list-group-item">Vestibulum at eros</li>
-                            <li class="list-group-item">Porta ac consectetur ac</li>
-                            <li class="list-group-item">Vestibulum at eros</li>
-                            <li class="list-group-item">Vestibulum at eros</li>
-                            </ul>`;
-                            div.appendChild(showSearch);
-                            var ul = document.getElementById(id);
-                            ul.getElementsByTagName('li')[0].innerHTML = company.Title;
-                            ul.getElementsByTagName('li')[1].innerHTML = company.Name;
-                            ul.getElementsByTagName('li')[2].innerHTML = "Направления: " + company.Tags;
-                            ul.getElementsByTagName('li')[3].innerHTML = "Email: " + '<a href="' + company.Email + '">' + company.Email.substring(7) + ' </a>';
-                            ul.getElementsByTagName('li')[4].innerHTML = "Телефон: " + company.Phone;
-                            ul.getElementsByTagName('li')[5].innerHTML = 'Сайт: ' + '<a href="' + company.Url + '">' + company.Url + ' </a>';
-                            ul.getElementsByTagName('li')[6].innerHTML = "Ссылка dev.by: " + '<a href="' + company.DevByUrl + '">' + company.DevByUrl + ' </a>';
-                            ul.getElementsByTagName('li')[7].innerHTML = "Адрес: " + company.Offices;
+                        if ((company.Name.search(myExp) != -1) || (company.Title.search(myExp) != -1)) {
+                            createNewElement(company, index);
                             count++;
                         }
-                       
                         countCompanies.innerHTML = "Найдено компаний: " + count + "/" + companies.length;
                     });
                 }
