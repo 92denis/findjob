@@ -11,6 +11,7 @@
 </head>
 
 <body>
+    <br>
     <div class="row"></div>
     <div class="col-lg-4">
         <div class="input-group">
@@ -82,7 +83,7 @@
                         var doc = document.getElementById(id);
                         doc.getElementsByClassName('card-header')[0].innerText = company.Title;
                         doc.getElementsByTagName('h4')[0].innerHTML = company.Name;
-                        doc.getElementsByTagName('p')[0].innerText = "Напрвления: " + company.Tags;
+                        doc.getElementsByTagName('p')[0].innerText = "Напраления: " + company.Tags;
                         doc.getElementsByTagName('p')[1].innerHTML = "Email: " + '<a href="mailto:' + company.Email + '">' + company.Email + ' </a>';
                         doc.getElementsByTagName('p')[2].innerText = "Телефон: " + company.Phone;
                         doc.getElementsByTagName('p')[3].innerHTML = 'Сайт: ' + '<a href="' + company.Url + '">' + company.Url + ' </a>';
@@ -133,8 +134,8 @@
                             var ul = document.getElementById(id);
                             ul.getElementsByTagName('li')[0].innerHTML = company.Title;
                             ul.getElementsByTagName('li')[1].innerHTML = company.Name;
-                            ul.getElementsByTagName('li')[2].innerHTML = "Напрвления: " + company.Tags;
-                            ul.getElementsByTagName('li')[3].innerHTML = "Email: " + '<a href="mailto:' + company.Email + '">' + company.Email + ' </a>';
+                            ul.getElementsByTagName('li')[2].innerHTML = "Напраления: " + company.Tags;
+                            ul.getElementsByTagName('li')[3].innerHTML = "Email: " + '<a href="mailto: ' + company.Email + '">' + company.Email + ' </a>';
                             ul.getElementsByTagName('li')[4].innerHTML = "Телефон: " + company.Phone;
                             ul.getElementsByTagName('li')[5].innerHTML = 'Сайт: ' + '<a href="' + company.Url + '">' + company.Url + ' </a>';
                             ul.getElementsByTagName('li')[6].innerHTML = "Ссылка dev.by: " + '<a href="' + company.DevByUrl + '">' + company.DevByUrl + ' </a>';
