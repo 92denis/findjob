@@ -16,7 +16,7 @@
     <div class="row">
         <div class="col-lg-4">
             <div class="input-group">
-                       <span class="input-group-addon">Название </span>
+                <span class="input-group-addon">Название </span>
                 <input type="text" class="form-control" id='search1' placeholder="Введите название компании..." aria-label="Text input with checkbox">
                 <!--<div class="input-group">
             <input type="text" class="form-control" id='search' placeholder="Введите название компании...">
@@ -25,14 +25,11 @@
         </div>
         <div class="col-lg-4">
             <div class="input-group">
-                    <span class="input-group-addon">Направление</span>
-                <input type="text" class="form-control" id='search2' placeholder="Введите направление компании..." aria-label="Text input with checkbox">
-                <!--<div class="input-group">
-            <input type="text" class="form-control" id='search' placeholder="Введите название компании...">
-            <span class="input-group-btn">-->
+                <span class="input-group-addon">Направление</span>
+                <select class="form-control" id="selectTags"></select>
             </div>
         </div>
-        <button class="btn btn-secondary btn-success" onclick="searchByParam(companies)" type="button">Go!</button>
+        <button class="btn btn-secondary btn-success" onclick="searchByParam(companies)" type="button">Найти!</button>
     </div>
     <hr>
     <p id="count">
@@ -60,6 +57,7 @@
 
                             companies = JSON.parse(xhr.responseText);
                             showCompanies(companies);
+                            SelectionByTags(companies);
                         }
                     }
                     xhr.send(); // (1)
@@ -119,7 +117,7 @@
                 function searchByParam(companies) {
                     var countCompanies = document.getElementById("count");
                     var searchStringName = document.getElementById("search1").value;
-                    var searchStringTags = document.getElementById("search2").value;
+                    var searchStringTags = document.getElementById("selectTags").value;
                     var myExpName = new RegExp(searchStringName, "i");
                     var myExpTags = new RegExp(searchStringTags, "i");
 
@@ -128,26 +126,52 @@
                     div.innerHTML = "";
 
                     companies.forEach(function (company, index) {
-                        if (searchStringName  && !searchStringTags) {
+                        if (searchStringName && !searchStringTags) {
                             if ((company.Name.search(myExpName) != -1)) {
                                 createNewElement(company, index);
                                 count++;
                             }
                         }
-                        else if (searchStringTags && !searchStringName ) {
+                        else if (searchStringTags && !searchStringName) {
                             if ((company.Tags[0].search(myExpTags) != -1)) {
                                 createNewElement(company, index);
                                 count++;
                             }
                         }
-                        else if ((searchStringName = true) && (searchStringTags = true) ) {
-                            if ( (company.Name.search(myExpName) != -1) && (company.Tags[0].search(myExpTags) != -1)) {
+                        else if ((searchStringName = true) && (searchStringTags = true)) {
+                            if ((company.Name.search(myExpName) != -1) && (company.Tags[0].search(myExpTags) != -1)) {
                                 createNewElement(company, index);
                                 count++;
                             }
                         }
                         countCompanies.innerHTML = "Найдено компаний: " + count + "/" + companies.length;
                     });
+                }
+
+                function SelectionByTags(companies) {
+                    var addTags = [];
+                    var myArray = [];
+                    var selectTags = document.getElementById('selectTags');
+                    companies.forEach(function (company, index) {
+                        addTags.push(company.Tags);
+                    });
+                    addTags.reduce(function (flat, current) { return flat.concat(current); }, []);   // создание массива эксклюзивных значений направлений
+                    myArray = unique(addTags.reduce(function (flat, current) { return flat.concat(current); }, []));
+                    myArray.sort();                    
+                    for (var i = 0; i < myArray.length; i++) {
+                        var options = selectTags.appendChild(document.createElement('option'));
+                        options.innerHTML = myArray[i];
+                    }
+                }
+                // функция для удаления одинаковых значений массива
+                function unique(arr) {
+                    var obj = {};
+
+                    for (var i = 0; i < arr.length; i++) {
+                        var str = arr[i];
+                        obj[str] = true;
+                    }
+                    return Object.keys(obj);
                 }
             </script>
 </body>
