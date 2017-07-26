@@ -12,6 +12,7 @@
         crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
         crossorigin="anonymous"></script>
+    <script src="myScript.js" defer></script>
 
 </head>
 
@@ -42,16 +43,16 @@
                     <div style="margin: 10px 0px;" class="col-lg-5 col-md-6 col-sm-12">
                         <div class="input-group">
                             <span class="input-group-addon">Направление</span>
-                            <select class="form-control" id="selectTags" ></select>
+                            <select class="form-control" id="selectTags"></select>
                         </div>
                     </div>
-                    <button style="margin: 10px 0px;" class="col-lg-2 col-md-12 col-sm-12 btn btn-secondary btn-success" onclick="searchByParam(companies)" type="button">Найти!</button>
+                    <button style="margin: 10px 0px;" class="col-lg-2 col-md-12 col-sm-12 btn btn-secondary btn-success" onclick="searchByParam(companies)"
+                        type="button">Найти!</button>
                 </div>
                 <hr>
-                <p id="count">
-                    <p>
-                        <div id="result"></div>
-                        <script src="myScript.js" defer></script>
+                <p id="count"></p>
+                <div id="result"></div>
+
             </div>
             <div style="margin: 10px;" role="tabpanel" class="tab-pane fade" id="hiddenCompanies"></div>
 

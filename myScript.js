@@ -27,7 +27,6 @@ function loadCompanies() {
 
 function createNewElement(company, index) {
 
-    // var newElement = document.createElement('div');
     var id = 'company' + index;
     var html =
         `<div class="card" id="` + id + `">                        
@@ -50,35 +49,7 @@ function createNewElement(company, index) {
     var doc = div.appendChild(newElement);
 
     doc.getElementsByClassName('btn')[0].onclick = hiddenCompany;
-    // newElement.innerHTML = `<div class="card" id="` + id + `">
-
-    //                     <div class="card-header">
-    //                         Featured
-    //                     </div>
-    //                     <div class="card-block">
-    //                         <h4 class="card-title">Special title treatment</h4>
-    //                         <p class="card-text"></p>
-    //                         <p class="card-text"></p>
-    //                         <p class="card-text"></p>
-    //                         <p class="card-text"></p>
-    //                         <p class="card-text"></p>
-    //                         <p class="card-text"></p>
-    //                         <button class="btn btn-primary" >Скрыть</button>
-    //                     </div>
-    //                     </div>`;
-
-    // div.appendChild(newElement);
-    // doc = document.getElementById(id);
-    // doc.getElementsByClassName('card-header')[0].innerText = company.Title;
-    // doc.getElementsByTagName('h4')[0].innerHTML = company.Name;
-    // doc.getElementsByTagName('p')[0].innerText = "Направления: " + company.Tags;
-    // doc.getElementsByTagName('p')[1].innerHTML = "Email: " + '<a href="' + company.Email + '">' + company.Email.substring(7) + ' </a>';
-    // doc.getElementsByTagName('p')[2].innerText = "Телефон: " + company.Phone;
-    // doc.getElementsByTagName('p')[3].innerHTML = 'Сайт: ' + '<a href="' + company.Url + '">' + company.Url + ' </a>';
-    // doc.getElementsByTagName('p')[4].innerHTML = "Ссылка dev.by: " + '<a href="' + company.DevByUrl + '">' + company.DevByUrl + ' </a>';
-    // doc.getElementsByTagName('p')[5].innerText = "Адрес: " + company.Offices;
-    // doc.getElementsByClassName('btn')[0].onclick = hiddenCompany;
-
+   
 }
 
 function showCompanies(companies) {
