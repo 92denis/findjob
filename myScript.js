@@ -16,6 +16,7 @@ function loadCompanies() {
         } else {
 
             companies = JSON.parse(xhr.responseText);
+            
             showCompanies(companies);
             SelectionByTags(companies);
 
@@ -56,8 +57,15 @@ function showCompanies(companies) {
     countCompanies = document.getElementById("count");
     countCompanies.innerHTML = "Найдено компаний: " + companies.length + " из " + companies.length;
     companies.forEach(function (company, index) {
-        createNewElement(company, index);
+      createNewElement(company, index);
     });
+      
+         if (localStorage.getItem('myCompany')!== null){
+        var myCard = localStorage.getItem('myCompany');
+        var myCardElement = document.getElementById(myCard);
+        myCardElement.parentNode.removeChild(myCardElement);
+        document.getElementById('hiddenCompanies').appendChild(myCardElement);
+    }
 }
 
 function hiddenCompany(elem) {
@@ -65,6 +73,7 @@ function hiddenCompany(elem) {
     card.parentNode.removeChild(card);
     var hiddenCompanies = document.getElementById("hiddenCompanies");
     hiddenCompanies.appendChild(card);
+    localStorage.setItem('myCompany', card.id);
 }
 
 
