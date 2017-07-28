@@ -69,16 +69,17 @@ function showCompanies(companies) {
 }
 
 function hiddenCompany(elem) {
-    var idHiddenCompanies = [];
+   
     var card = elem.currentTarget.parentNode.parentNode;
     card.parentNode.removeChild(card);
     var hiddenCompanies = document.getElementById("hiddenCompanies");
     hiddenCompanies.appendChild(card);
-    for (var i = 0; i < hiddenCompanies.childNodes.length; i++) {
-        idHiddenCompanies.push(card.id);
+    var hiddenCompanyIds = localStorage.getItem('myCompany');
+    if (hiddenCompanyIds == null || hiddenCompanyIds == undefined) {
+        hiddenCompanyIds = [];
     }
-    console.log(idHiddenCompanies);
-    localStorage.setItem('myCompany', card.id);
+    hiddenCompanyIds.push(card.id);
+    localStorage.setItem('myCompany', hiddenCompanyIds);
 }
 
 
