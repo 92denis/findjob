@@ -16,7 +16,7 @@ function loadCompanies() {
         } else {
 
             companies = JSON.parse(xhr.responseText);
-            
+
             showCompanies(companies);
             SelectionByTags(companies);
 
@@ -50,17 +50,17 @@ function createNewElement(company, index) {
     var doc = div.appendChild(newElement);
 
     doc.getElementsByClassName('btn')[0].onclick = hiddenCompany;
-   
+
 }
 
 function showCompanies(companies) {
     countCompanies = document.getElementById("count");
     countCompanies.innerHTML = "Найдено компаний: " + companies.length + " из " + companies.length;
     companies.forEach(function (company, index) {
-      createNewElement(company, index);
+        createNewElement(company, index);
     });
-      
-         if (localStorage.getItem('myCompany')!== null){
+
+    if (localStorage.getItem('myCompany') !== null) {
         var myCard = localStorage.getItem('myCompany');
         var myCardElement = document.getElementById(myCard);
         myCardElement.parentNode.removeChild(myCardElement);
@@ -69,10 +69,15 @@ function showCompanies(companies) {
 }
 
 function hiddenCompany(elem) {
+    var idHiddenCompanies = [];
     var card = elem.currentTarget.parentNode.parentNode;
     card.parentNode.removeChild(card);
     var hiddenCompanies = document.getElementById("hiddenCompanies");
     hiddenCompanies.appendChild(card);
+    for (var i = 0; i < hiddenCompanies.childNodes.length; i++) {
+        idHiddenCompanies.push(card.id);
+    }
+    console.log(idHiddenCompanies);
     localStorage.setItem('myCompany', card.id);
 }
 
