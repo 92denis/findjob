@@ -16,9 +16,10 @@ function loadCompanies() {
         } else {
 
             companies = JSON.parse(xhr.responseText);
-
             showCompanies(companies);
             SelectionByTags(companies);
+
+
 
         }
     }
@@ -40,16 +41,17 @@ function createNewElement(company, index) {
              <p class="card-text">Сайт: <a href="` + company.Url + '">' + company.Url + `</a></p>
              <p class="card-text">Ссылка dev.by: <a href="` + company.DevByUrl + '">' + company.DevByUrl + `</a></p>
              <p class="card-text">Адрес: ` + company.Offices + `</p>
+             <label> Заметка:<p class="card-text"></p></label>
+              <textarea class="form-control" rows="3" id="comment"></textarea> 
+              <button style="margin: 10px 0px;" class="col-lg-2 col-md-12 col-sm-12 btn btn-secondary" type="button">Добавить заметку</button>
              <button class="btn btn-primary" >Скрыть</button>
          </div>
      </div>`;
-
     var newElement = document.createElement('div');
     newElement.innerHTML = html;
-
     var doc = div.appendChild(newElement);
-
-    doc.getElementsByClassName('btn')[0].onclick = hiddenCompany;
+    doc.getElementsByClassName('btn')[0].onclick = addNoteAboutCompany;
+    doc.getElementsByClassName('btn-primary')[0].onclick = hiddenCompany;
 
 }
 
@@ -60,7 +62,6 @@ function showCompanies(companies) {
     companies.forEach(function (company, index) {
         createNewElement(company, index);
     });
-
     if (localStorage.getItem('myCompany') !== null) {
 
         for (var i = 0; i < myCard.length; i++) {
@@ -80,12 +81,10 @@ function hiddenCompany(elem) {
     if (hiddenCompanyIds == null || hiddenCompanyIds == undefined) {
         hiddenCompanyIds = [];
     }
-    hiddenCompanyIds.push(card.id)
-    var jsonHiddenCompanyIds = JSON.stringify(hiddenCompanyIds);
-    localStorage.setItem('myCompany', jsonHiddenCompanyIds);
-    console.log(hiddenCompaniesIds);
+    hiddenCompanyIds.push(card.id);
+    var hiddenCompanyIdsJson = JSON.stringify(hiddenCompanyIds);
+    localStorage.setItem('myCompany', hiddenCompanyIdsJson);
 }
-
 
 function searchByParam(companies) {
 
@@ -143,4 +142,12 @@ function unique(arr) {
         obj[str] = true;
     }
     return Object.keys(obj);
+}
+
+function addNoteAboutCompany(elem) {
+    var card = elem.currentTarget.parentNode.parentNode;
+    var newNote = card.childNodes[3].childNodes[17];
+    var noteAboutCompany = card.childNodes[3].childNodes[15].childNodes[1];
+    noteAboutCompany.innerText += ' ' + newNote.value;
+    newNote.value = " ";
 }
