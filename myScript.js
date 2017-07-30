@@ -103,15 +103,19 @@ function searchByParam(companies) {
             }
         }
         else if (searchStringTags && !searchStringName) {
-            if ((company.Tags[0].search(myExpTags) != -1)) {
-                createNewElement(company, index);
-                count++;
+            for (var i = 0; i < company.Tags.length; i++) {
+                if ((company.Tags[i].search(myExpTags) != -1)) {
+                    createNewElement(company, index);
+                    count++;
+                }
             }
         }
         else if ((searchStringName = true) && (searchStringTags = true)) {
-            if ((company.Name.search(myExpName) != -1) && (company.Tags[0].search(myExpTags) != -1)) {
-                createNewElement(company, index);
-                count++;
+            for (var i = 0; i < company.Tags.length; i++) {
+                if ((company.Name.search(myExpName) != -1) && (company.Tags[0].search(myExpTags) != -1)) {
+                    createNewElement(company, index);
+                    count++;
+                }
             }
         }
         countCompanies.innerHTML = "Найдено компаний: " + count + " из " + companies.length;
