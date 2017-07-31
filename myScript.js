@@ -18,6 +18,7 @@ function loadCompanies() {
             companies = JSON.parse(xhr.responseText);
             showCompanies(companies);
             SelectionByTags(companies);
+            showCountSearchByTags(companies);
 
 
 
@@ -154,4 +155,23 @@ function addNoteAboutCompany(elem) {
     var noteAboutCompany = card.childNodes[3].childNodes[15].childNodes[1];
     noteAboutCompany.innerText += ' ' + newNote.value;
     newNote.value = " ";
+}
+
+function showCountSearchByTags(companies) {
+    var count = 0;
+    var option = document.getElementsByTagName('option');
+    var searchStringName = document.getElementById("search1").value;
+    companies.forEach(function (company, index) {
+        for (var i = 1; i < option.length; i++) {
+            var myExpTags = new RegExp(option[i].innerText, "i");
+            if (option[i].innerText && !searchStringName) {
+                for (var j = 0; j < company.Tags.length; j++) {
+                    if ((company.Tags[j].search(myExpTags) != -1)) {
+                        count++;
+                        option[i].innerText += ' (' + count + ')';
+                    }
+                }
+            }
+        }
+    });
 }
