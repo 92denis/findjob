@@ -124,7 +124,7 @@ function searchByParam(companies) {
 }
 
 function SelectionByTags() {
-    var myArray = createArrayTags(companies);
+    var myArray = createArrayTags();
     for (var i = 0; i < myArray.length; i++) {
         var options = selectTags.appendChild(document.createElement('option'));
         options.innerHTML = myArray[i];
@@ -150,19 +150,13 @@ function addNoteAboutCompany(elem) {
 }
 
 function getTagsFromCompanies(companies) {
- 
-    var getTagsCompanies = []
-    companies.forEach(function (company, index) {
 
-        for (var i = 0; i < company.Tags.length; i++) {
-            {
-                getTagsCompanies.push(company.Tags[i]);
-            }
-        }
-    });
-    for (var i = 0; i <myArray.length; i++) {
+    var getTagsCompanies =  removeWhiteSpacesFromCompanies(companies);
+    var myArray =createArrayTags();
+  
+    for (var i = 0; i < myArray.length; i++) {
         var count = 0;
-        for (var j = 0 ; j < getTagsCompanies.length; j++) {
+        for (var j = 0; j < getTagsCompanies.length; j++) {
             if (myArray[i] == getTagsCompanies[j]) {
                 count++;
             }
@@ -174,19 +168,24 @@ function updateSelect() {
     for (var i = 1; i < option.length; i++) {
     }
 }
-function createArrayTags(companies){
-  var addTags = [];
+function createArrayTags() {
+    var addTags = removeWhiteSpacesFromCompanies(companies);
     var myArray = [];
     var selectTags = document.getElementById('selectTags');
+    myArray = unique(addTags);// создание массива эксклюзивных значений направлений
+    myArray.sort();
+    return myArray;
+}
+
+function removeWhiteSpacesFromCompanies(companies) {
+    var addTags = [];
     companies.forEach(function (company, index) {
         for (var i = 0; i < company.Tags.length; i++) {
             {
+                company.Tags[i] = company.Tags[i].trim();
                 addTags.push(company.Tags[i]);
             }
         }
     });
-    
-    myArray = unique(addTags);// создание массива эксклюзивных значений направлений
-    myArray.sort();
-    return myArray;
+    return addTags;
 }
