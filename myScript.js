@@ -132,6 +132,7 @@ function updateSelect() {
     for (var i = 1; i < tagsFromCompanies.length; i++) {
         var options = selectTags.appendChild(document.createElement('option'));
         options.innerHTML = tagsFromCompanies[i].name + ' (' + tagsFromCompanies[i].count + ')';
+        options.value = tagsFromCompanies[i].name;
     }
 }
 // функция для удаления одинаковых значений массива
