@@ -17,7 +17,7 @@ function loadCompanies() {
 
             companies = JSON.parse(xhr.responseText);
             showCompanies(companies);
-            SelectionByTags();
+            updateSelect() ;
             getTagsFromCompanies();
 
 
@@ -128,11 +128,11 @@ function searchByParam(companies) {
     });
 }
 
-function SelectionByTags() {
-    var myArray = createArrayTags();
-    for (var i = 0; i < myArray.length; i++) {
+function updateSelect() {
+    var tagsFromCompanies = getTagsFromCompanies();
+    for (var i = 0; i < tagsFromCompanies.length; i++) {
         var options = selectTags.appendChild(document.createElement('option'));
-        options.innerHTML = myArray[i];
+        options.innerHTML = tagsFromCompanies[i].name +' (' + tagsFromCompanies[i].count + ')';
     }
 }
 // функция для удаления одинаковых значений массива
@@ -191,28 +191,23 @@ function getTagsFromCompanies() {
     return arrayObjectTags;
 }
 
-function updateSelect() {
-    for (var i = 1; i < option.length; i++) {
-    }
-}
-
 function createArrayTags() {
-    var addTags = removeWhiteSpacesFromTags(companies);
+    var tags = removeWhiteSpacesFromTags(companies);
     var myArray = [];
-    myArray = unique(addTags);// создание массива эксклюзивных значений направлений
+    myArray = unique(tags);// создание массива эксклюзивных значений направлений
     myArray.sort();
     return myArray;
 }
 
 function removeWhiteSpacesFromTags(companies) {
-    var addTags = [];
+    var tags = [];
     companies.forEach(function (company, index) {
         for (var i = 0; i < company.Tags.length; i++) {
             {
                 company.Tags[i] = company.Tags[i].trim();
-                addTags.push(company.Tags[i]);
+                tags.push(company.Tags[i]);
             }
         }
     });
-    return addTags;
+    return tags;
 }
