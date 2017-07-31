@@ -17,8 +17,8 @@ function loadCompanies() {
 
             companies = JSON.parse(xhr.responseText);
             showCompanies(companies);
-            SelectionByTags(companies);
-            showCountSearchByTags(companies);
+            SelectionByTags();
+            getTagsFromCompanies(companies);
 
 
 
@@ -89,7 +89,7 @@ function hiddenCompany(elem) {
 
 function searchByParam(companies) {
 
-    var searchStringName = document.getElementById("search1").value;
+    var searchStringName = document.getElementById("searchByName").value;
     var searchStringTags = document.getElementById("selectTags").value;
     var myExpName = new RegExp(searchStringName, "i");
     var myExpTags = new RegExp(searchStringTags, "i");
@@ -123,16 +123,8 @@ function searchByParam(companies) {
     });
 }
 
-function SelectionByTags(companies) {
-    var addTags = [];
-    var myArray = [];
-    var selectTags = document.getElementById('selectTags');
-    companies.forEach(function (company, index) {
-        addTags.push(company.Tags);
-    });
-    addTags.reduce(function (flat, current) { return flat.concat(current); }, []);   // делаю одномерный массив из многомерного
-    myArray = unique(addTags.reduce(function (flat, current) { return flat.concat(current); }, []));// создание массива эксклюзивных значений направлений
-    myArray.sort();
+function SelectionByTags() {
+    var myArray = createArrayTags(companies);
     for (var i = 0; i < myArray.length; i++) {
         var options = selectTags.appendChild(document.createElement('option'));
         options.innerHTML = myArray[i];
@@ -157,21 +149,44 @@ function addNoteAboutCompany(elem) {
     newNote.value = " ";
 }
 
-function showCountSearchByTags(companies) {
-    var count = 0;
-    var option = document.getElementsByTagName('option');
-    var searchStringName = document.getElementById("search1").value;
+function getTagsFromCompanies(companies) {
+ 
+    var getTagsCompanies = []
     companies.forEach(function (company, index) {
-        for (var i = 1; i < option.length; i++) {
-            var myExpTags = new RegExp(option[i].innerText, "i");
-            if (option[i].innerText && !searchStringName) {
-                for (var j = 0; j < company.Tags.length; j++) {
-                    if ((company.Tags[j].search(myExpTags) != -1)) {
-                        count++;
-                        option[i].innerText += ' (' + count + ')';
-                    }
-                }
+
+        for (var i = 0; i < company.Tags.length; i++) {
+            {
+                getTagsCompanies.push(company.Tags[i]);
             }
         }
     });
+    for (var i = 0; i <myArray.length; i++) {
+        var count = 0;
+        for (var j = 0 ; j < getTagsCompanies.length; j++) {
+            if (myArray[i] == getTagsCompanies[j]) {
+                count++;
+            }
+        }
+        console.log(myArray[i] + ':' + count);
+    }
+}
+function updateSelect() {
+    for (var i = 1; i < option.length; i++) {
+    }
+}
+function createArrayTags(companies){
+  var addTags = [];
+    var myArray = [];
+    var selectTags = document.getElementById('selectTags');
+    companies.forEach(function (company, index) {
+        for (var i = 0; i < company.Tags.length; i++) {
+            {
+                addTags.push(company.Tags[i]);
+            }
+        }
+    });
+    
+    myArray = unique(addTags);// создание массива эксклюзивных значений направлений
+    myArray.sort();
+    return myArray;
 }
