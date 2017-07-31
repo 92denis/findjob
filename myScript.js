@@ -17,7 +17,7 @@ function loadCompanies() {
 
             companies = JSON.parse(xhr.responseText);
             showCompanies(companies);
-            updateSelect() ;
+            updateSelect();
             getTagsFromCompanies();
 
 
@@ -46,17 +46,16 @@ function createNewElement(company, index) {
               <textarea class="form-control" rows="3" id="comment"></textarea> 
               <button style="margin: 10px 0px;" class="col-lg-2 col-md-12 col-sm-12 btn btn-secondary" type="button">Добавить заметку</button>
               <button style="margin: 10px 0px;" class="col-lg-3 col-md-12 col-sm-12 btn btn-secondary" type="button">Редактировать</button>
-             <button style="margin: 10px 0px;" class="col-lg-3 col-md-12 col-sm-12 btn btn-secondary" type="button">Сохранить</button>
+             <button style="margin: 10px 0px; display: none" class="col-lg-3 col-md-12 col-sm-12 btn btn-secondary" type="button">Сохранить</button>
              <button class="btn btn-primary" >Скрыть</button>
          </div>
      </div>`;
     var newElement = document.createElement('div');
     newElement.innerHTML = html;
     var doc = div.appendChild(newElement);
-     doc.getElementsByClassName('btn')[2].onclick = saveNoteAboutCompany;
+    doc.getElementsByClassName('btn')[2].onclick = saveNoteAboutCompany;
     doc.getElementsByClassName('btn')[0].onclick = addNoteAboutCompany;
     doc.getElementsByClassName('btn')[1].onclick = editNoteAboutCompany;
-    doc.getElementsByClassName('btn')[2].onclick = saveNoteAboutCompany;
     doc.getElementsByClassName('btn-primary')[0].onclick = hiddenCompany;
 
 }
@@ -130,9 +129,9 @@ function searchByParam(companies) {
 
 function updateSelect() {
     var tagsFromCompanies = getTagsFromCompanies();
-    for (var i = 0; i < tagsFromCompanies.length; i++) {
+    for (var i = 1; i < tagsFromCompanies.length; i++) {
         var options = selectTags.appendChild(document.createElement('option'));
-        options.innerHTML = tagsFromCompanies[i].name +' (' + tagsFromCompanies[i].count + ')';
+        options.innerHTML = tagsFromCompanies[i].name + ' (' + tagsFromCompanies[i].count + ')';
     }
 }
 // функция для удаления одинаковых значений массива
@@ -152,7 +151,7 @@ function addNoteAboutCompany(elem) {
     var noteAboutCompany = card.childNodes[3].childNodes[15].childNodes[1];
     noteAboutCompany.innerText += ' ' + newNote.value;
     newNote.value = " ";
-    
+
 }
 
 function editNoteAboutCompany(elem) {
@@ -160,6 +159,8 @@ function editNoteAboutCompany(elem) {
     var newNote = card.childNodes[3].childNodes[17];
     var noteAboutCompany = card.childNodes[3].childNodes[15].childNodes[1];
     newNote.value = noteAboutCompany.innerText;
+    var edit = card.childNodes[3].childNodes[21].style.display = 'none';
+    var save = card.childNodes[3].childNodes[23].style.display = 'inline-block';
 
 }
 function saveNoteAboutCompany(elem) {
@@ -167,6 +168,8 @@ function saveNoteAboutCompany(elem) {
     var newNote = card.childNodes[3].childNodes[17];
     var noteAboutCompany = card.childNodes[3].childNodes[15].childNodes[1];
     noteAboutCompany.innerText = newNote.value;
+    var edit = card.childNodes[3].childNodes[21].style.display = 'inline-block';
+    var save = card.childNodes[3].childNodes[23].style.display = 'none';
     newNote.value = " ";
 
 }
