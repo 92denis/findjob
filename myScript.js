@@ -18,7 +18,7 @@ function loadCompanies() {
             companies = JSON.parse(xhr.responseText);
             showCompanies(companies);
             SelectionByTags();
-            getTagsFromCompanies(companies);
+            getTagsFromCompanies();
 
 
 
@@ -149,11 +149,9 @@ function addNoteAboutCompany(elem) {
     newNote.value = " ";
 }
 
-function getTagsFromCompanies(companies) {
-
-    var getTagsCompanies =  removeWhiteSpacesFromCompanies(companies);
-    var myArray =createArrayTags();
-  
+function getTagsFromCompanies() {
+    var getTagsCompanies = removeWhiteSpacesFromTags(companies);
+    var myArray = createArrayTags();
     for (var i = 0; i < myArray.length; i++) {
         var count = 0;
         for (var j = 0; j < getTagsCompanies.length; j++) {
@@ -161,23 +159,23 @@ function getTagsFromCompanies(companies) {
                 count++;
             }
         }
-        console.log(myArray[i] + ':' + count);
+       console.log(myArray[i] + ':' + count);
     }
 }
 function updateSelect() {
     for (var i = 1; i < option.length; i++) {
     }
 }
+
 function createArrayTags() {
-    var addTags = removeWhiteSpacesFromCompanies(companies);
+    var addTags = removeWhiteSpacesFromTags(companies);
     var myArray = [];
-    var selectTags = document.getElementById('selectTags');
     myArray = unique(addTags);// создание массива эксклюзивных значений направлений
     myArray.sort();
     return myArray;
 }
 
-function removeWhiteSpacesFromCompanies(companies) {
+function removeWhiteSpacesFromTags(companies) {
     var addTags = [];
     companies.forEach(function (company, index) {
         for (var i = 0; i < company.Tags.length; i++) {
