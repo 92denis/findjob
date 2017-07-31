@@ -152,16 +152,23 @@ function addNoteAboutCompany(elem) {
 function getTagsFromCompanies() {
     var getTagsCompanies = removeWhiteSpacesFromTags(companies);
     var myArray = createArrayTags();
+    var arrayObjectTags = [];
+
     for (var i = 0; i < myArray.length; i++) {
         var count = 0;
+        var tags = {};
         for (var j = 0; j < getTagsCompanies.length; j++) {
             if (myArray[i] == getTagsCompanies[j]) {
                 count++;
             }
+            tags.name = myArray[i];
+            tags.count = count;
         }
-       console.log(myArray[i] + ':' + count);
+        arrayObjectTags[i] = tags;
     }
+    return arrayObjectTags;
 }
+
 function updateSelect() {
     for (var i = 1; i < option.length; i++) {
     }
