@@ -44,11 +44,10 @@ function createNewElement(company, index) {
              <p class="card-text">Адрес: ` + company.Offices + `</p>
              <label> Заметка:<p class="card-text"></p></label>
               <textarea class="form-control" rows="3" id="comment"></textarea> 
-               <button class="btn btn-primary" >Скрыть</button>
               <button style="margin: 10px 0px;" class="col-lg-2 col-md-12 col-sm-12 btn btn-secondary" type="button">Добавить заметку</button>
               <button style="margin: 10px 0px;" class="col-lg-3 col-md-12 col-sm-12 btn btn-secondary" type="button">Редактировать</button>
              <button style="margin: 10px 0px; display: none" class="col-lg-3 col-md-12 col-sm-12 btn btn-secondary" type="button">Сохранить</button>
-            
+             <button class="btn btn-primary" >Скрыть</button>
          </div>
      </div>`;
     var newElement = document.createElement('div');
@@ -130,7 +129,7 @@ function searchByParam(companies) {
 
 function updateSelect() {
     var tagsFromCompanies = getTagsFromCompanies();
-    for (var i = 1; i < tagsFromCompanies.length; i++) {
+    for (var i = 0; i < tagsFromCompanies.length; i++) {
         var options = selectTags.appendChild(document.createElement('option'));
         options.innerHTML = tagsFromCompanies[i].name + ' (' + tagsFromCompanies[i].count + ')';
         options.value = tagsFromCompanies[i].name;
