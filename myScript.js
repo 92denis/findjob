@@ -92,7 +92,6 @@ function hiddenCompany(elem) {
 }
 
 function searchByParam(companies) {
-
     var searchStringName = document.getElementById("searchByName").value;
     var searchStringTags = document.getElementById("selectTags").value;
     var myExpName = new RegExp(searchStringName, "i");
@@ -117,7 +116,7 @@ function searchByParam(companies) {
         }
         else if ((searchStringName = true) && (searchStringTags = true)) {
             for (var i = 0; i < company.Tags.length; i++) {
-                if ((company.Name.search(myExpName) != -1) && (company.Tags[0].search(myExpTags) != -1)) {
+                if ((company.Name.search(myExpName) != -1) && (company.Tags[i].search(myExpTags) != -1)) {
                     createNewElement(company, index);
                     count++;
                 }
