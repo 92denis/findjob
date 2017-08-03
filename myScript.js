@@ -20,8 +20,6 @@ function loadCompanies() {
             updateSelect();
             getTagsFromCompanies();
 
-
-
         }
     }
     xhr.send(); // (1)
@@ -67,6 +65,7 @@ function showCompanies() {
     getCompanies().forEach(function (company, index) {
         createNewElement(company, index);
     });
+    getCompanies().filter(searchByParam);
     if (localStorage.getItem('myCompany') !== null) {
 
         for (var i = 0; i < myCard.length; i++) {
@@ -91,7 +90,7 @@ function hiddenCompany(elem) {
     localStorage.setItem('myCompany', hiddenCompanyIdsJson);
 }
 
-function searchByParam(companies) {
+function searchByParam() {
     var searchStringName = document.getElementById("searchByName").value;
     var searchStringTags = document.getElementById("selectTags").value;
     var myExpName = new RegExp(searchStringName, "i");
@@ -99,7 +98,7 @@ function searchByParam(companies) {
     var count = 0;
     div.innerHTML = "";
 
-    companies.forEach(function (company, index) {
+    getCompanies().forEach(function (company, index) {
         if (searchStringName && !searchStringTags) {
             if ((company.Name.search(myExpName) != -1)) {
                 createNewElement(company, index);
@@ -114,13 +113,17 @@ function searchByParam(companies) {
                 }
             }
         }
-        else if ((searchStringName = true) && (searchStringTags = true)) {
+        else if ((searchStringName) && (searchStringTags)) {
             for (var i = 0; i < company.Tags.length; i++) {
                 if ((company.Name.search(myExpName) != -1) && (company.Tags[i].search(myExpTags) != -1)) {
                     createNewElement(company, index);
                     count++;
                 }
             }
+        }
+        else if ((!searchStringName) && (!searchStringTags)) {
+            createNewElement(company, index);
+            count++;
         }
         countCompanies.innerHTML = "Найдено компаний: " + count + " из " + companies.length;
     });
