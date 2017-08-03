@@ -16,7 +16,7 @@ function loadCompanies() {
         } else {
 
             companies = JSON.parse(xhr.responseText);
-            showCompanies(companies);
+            showCompanies();
             updateSelect();
             getTagsFromCompanies();
 
@@ -60,11 +60,11 @@ function createNewElement(company, index) {
 
 }
 
-function showCompanies(companies) {
+function showCompanies() {
     var myCard = JSON.parse(localStorage.getItem('myCompany'));
     countCompanies = document.getElementById("count");
     countCompanies.innerHTML = "Найдено компаний: " + companies.length + " из " + companies.length;
-    companies.forEach(function (company, index) {
+    getCompanies().forEach(function (company, index) {
         createNewElement(company, index);
     });
     if (localStorage.getItem('myCompany') !== null) {
