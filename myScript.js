@@ -30,7 +30,7 @@ function createNewElement(company, index) {
 
     var id = 'company' + index;
     var html =
-        `<div class="card" id="` + id + `">                        
+        `<div class="card" id="` + id + `" data-company-url ="` + company.DevByUrl + `">                        
          <div class="card-header">` + company.Title + `</div>
          <div class="card-block">
              <h4 class="card-title">` + company.Name + `</h4>
@@ -59,21 +59,33 @@ function createNewElement(company, index) {
 }
 
 function showCompanies() {
-    var myCard = JSON.parse(localStorage.getItem('myCompany'));
+    var urls = JSON.parse(localStorage.getItem('urls'));
     countCompanies = document.getElementById("count");
     countCompanies.innerHTML = "Найдено компаний: " + companies.length + " из " + companies.length;
+    getCompanies().filter(function (company, index) {    searchByParam;
+        if (localStorage.getItem('urls') !== null) {
+            for (var i = 0; i < urls.length; i++) {
+                if (company.DevByUrl === urls[i]) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        }
+     
+    });
     getCompanies().forEach(function (company, index) {
         createNewElement(company, index);
     });
-    getCompanies().filter(searchByParam);
-    if (localStorage.getItem('myCompany') !== null) {
 
-        for (var i = 0; i < myCard.length; i++) {
-            var myCardElement = document.getElementById(myCard[i]);
-            myCardElement.parentNode.removeChild(myCardElement);
-            document.getElementById('hiddenCompanies').appendChild(myCardElement);
-        }
-    }
+    // if (localStorage.getItem('myCompany') !== null) {
+
+    //     for (var i = 0; i < myCard.length; i++) {
+    //         var myCardElement = document.getAttribute(myCard[i]);
+    //         myCardElement.parentNode.removeChild(myCardElement);
+    //         document.getElementById('hiddenCompanies').appendChild(myCardElement);
+    //     }
+    // }
 }
 
 function hiddenCompany(elem) {
@@ -81,13 +93,14 @@ function hiddenCompany(elem) {
     card.parentNode.removeChild(card);
     var hiddenCompanies = document.getElementById("hiddenCompanies");
     hiddenCompanies.appendChild(card);
-    var hiddenCompanyIds = JSON.parse(localStorage.getItem('myCompany'));
+    var hiddenCompanyIds = JSON.parse(localStorage.getItem('urls'));
     if (hiddenCompanyIds == null || hiddenCompanyIds == undefined) {
         hiddenCompanyIds = [];
     }
-    hiddenCompanyIds.push(card.id);
+    var attributeCards = card.attributes[2].value;
+    hiddenCompanyIds.push(attributeCards);
     var hiddenCompanyIdsJson = JSON.stringify(hiddenCompanyIds);
-    localStorage.setItem('myCompany', hiddenCompanyIdsJson);
+    localStorage.setItem('urls', hiddenCompanyIdsJson);
 }
 
 function searchByParam() {
