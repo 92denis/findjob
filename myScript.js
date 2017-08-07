@@ -18,7 +18,7 @@ function loadCompanies() {
             showCompanies();
             updateSelect();
             getTagsFromCompanies();
-            showHideCompanies();
+            showHiddenCompanies();
         }
     }
     xhr.send(); // (1)
@@ -49,7 +49,7 @@ function createNewElement(company, index, div) {
      </div>`;
     var newElement = document.createElement('div');
     newElement.innerHTML = html;
-
+   
     var doc = div.appendChild(newElement);
     doc.getElementsByClassName('btn')[2].onclick = saveNoteAboutCompany;
     doc.getElementsByClassName('btn')[0].onclick = addNoteAboutCompany;
@@ -91,7 +91,7 @@ function showCompanies() {
     });
 
     filteredCompanies.forEach(function (company, index) {
-        var div = document.getElementById('result');
+      var div = document.getElementById('result');
         createNewElement(company, index, div);
     });
     countCompanies = document.getElementById("count");
@@ -202,7 +202,7 @@ function removeWhiteSpacesFromTags(companies) {
 }
 
 function showHiddenCompanies() {
-
+   
     var a = localStorage.getItem('urls');
 
     var urls = a === null ? [] : JSON.parse(a);
