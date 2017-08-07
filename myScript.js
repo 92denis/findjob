@@ -18,14 +18,14 @@ function loadCompanies() {
             showCompanies();
             updateSelect();
             getTagsFromCompanies();
-
+            showHideCompanies();
         }
     }
     xhr.send(); // (1)
 
 }
 
-function createNewElement(company, index) {
+function createNewElement(company, index, div) {
 
     var id = 'company' + index;
     var html =
@@ -49,7 +49,7 @@ function createNewElement(company, index) {
      </div>`;
     var newElement = document.createElement('div');
     newElement.innerHTML = html;
-    var div = document.getElementById('result');
+
     var doc = div.appendChild(newElement);
     doc.getElementsByClassName('btn')[2].onclick = saveNoteAboutCompany;
     doc.getElementsByClassName('btn')[0].onclick = addNoteAboutCompany;
@@ -70,31 +70,32 @@ function showCompanies() {
 
     var filteredCompanies = companies.filter(function (company, index) {
         //searchByParam();
- 
+
         if (urls.includes(company.DevByUrl)) {
-        // hidden company
-        return false;
-    }
+            // hidden company
+            return false;
+        }
 
-    var searchStringName = document.getElementById("searchByName").value;
-    var searchStringTags = document.getElementById("selectTags").value;
+        var searchStringName = document.getElementById("searchByName").value;
+        var searchStringTags = document.getElementById("selectTags").value;
 
-    if (searchStringName && company.Name.indexOf(searchStringName) == -1) {
-        // name doesn't match
-        return false;
-    }
+        if (searchStringName && company.Name.indexOf(searchStringName) == -1) {
+            // name doesn't match
+            return false;
+        }
         if (searchStringTags && company.Tags.includes(searchStringTags) == false) {
             return false;
-     
-    }
-    return true;
-});
 
-filteredCompanies.forEach(function (company, index) {
-    createNewElement(company, index);
-});
-countCompanies = document.getElementById("count");
-countCompanies.innerHTML = "Найдено компаний: " + filteredCompanies.length + " из " + companies.length;
+        }
+        return true;
+    });
+
+    filteredCompanies.forEach(function (company, index) {
+        var div = document.getElementById('result');
+        createNewElement(company, index, div);
+    });
+    countCompanies = document.getElementById("count");
+    countCompanies.innerHTML = "Найдено компаний: " + filteredCompanies.length + " из " + companies.length;
 }
 
 function hiddenCompany(elem) {
@@ -102,14 +103,14 @@ function hiddenCompany(elem) {
     card.parentNode.removeChild(card);
     var hiddenCompanies = document.getElementById("hiddenCompanies");
     hiddenCompanies.appendChild(card);
-    var hiddenCompanyIds = JSON.parse(localStorage.getItem('urls'));
-    if (hiddenCompanyIds == null || hiddenCompanyIds == undefined) {
-        hiddenCompanyIds = [];
+    var hiddenCompanyUrl = JSON.parse(localStorage.getItem('urls'));
+    if (hiddenCompanyUrl == null || hiddenCompanyUrl == undefined) {
+        hiddenCompanyUrl = [];
     }
     var attributeCards = card.getAttribute("data-company-url");
-    hiddenCompanyIds.push(attributeCards);
-    var hiddenCompanyIdsJson = JSON.stringify(hiddenCompanyIds);
-    localStorage.setItem('urls', hiddenCompanyIdsJson);
+    hiddenCompanyUrl.push(attributeCards);
+    var hiddenCompanyUrlJson = JSON.stringify(hiddenCompanyUrl);
+    localStorage.setItem('urls', hiddenCompanyUrlJson);
 }
 
 
@@ -198,4 +199,28 @@ function removeWhiteSpacesFromTags(companies) {
         }
     });
     return tags;
+}
+
+function showHiddenCompanies() {
+
+    var a = localStorage.getItem('urls');
+
+    var urls = a === null ? [] : JSON.parse(a);
+
+    var companies = getCompanies();
+
+    var filteredCompanies = companies.filter(function (company, index) {
+        //searchByParam();
+
+        if (urls.includes(company.DevByUrl)) {
+            // hidden company
+            return true;
+        }
+        return false;
+    });
+
+    filteredCompanies.forEach(function (company, index) {
+        var div = document.getElementById("hiddenCompanies");
+        createNewElement(company, index, div);
+    });
 }
