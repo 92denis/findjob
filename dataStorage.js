@@ -1,12 +1,13 @@
 function getCompanies() {
     var allCompanies = JSON.parse(localStorage.getItem('companies'));
+
     if (allCompanies == null || allCompanies == undefined) {
         allCompanies = [{
             "Title": "*instinctools",
             "Name": "ООО &quot;Инстинктулс&quot;",
             "Tags": [
-                "ИТ-аутсорсинг",
-                " Веб-разработка",
+                "Веб-разработка",
+                " ИТ-аутсорсинг",
                 " Разработка ПО на заказ",
                 " Собственные продукты",
                 " Мобильная разработка",
@@ -47,6 +48,11 @@ function getCompanies() {
                 "ул. Лещинского 55, офис 7Н"
             ]
         }];
+        for (var i = 0; i < allCompanies.length; i++) {
+            for (var j = 0; j < allCompanies[i].Tags.length; j++) {
+                allCompanies[i].Tags[j] = allCompanies[i].Tags[j].trim();
+            }
+        }
         return allCompanies;
     }
 }

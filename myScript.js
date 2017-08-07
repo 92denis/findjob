@@ -1,5 +1,4 @@
 loadCompanies();
-var div = document.getElementById('result');
 
 function loadCompanies() {
     var xhr = new XMLHttpRequest();
@@ -15,7 +14,7 @@ function loadCompanies() {
             alert(xhr.status + ': ' + xhr.statusText);
         } else {
 
-            companies = JSON.parse(xhr.responseText);
+            // var companies = JSON.parse(xhr.responseText);
             showCompanies();
             updateSelect();
             getTagsFromCompanies();
@@ -50,6 +49,7 @@ function createNewElement(company, index) {
      </div>`;
     var newElement = document.createElement('div');
     newElement.innerHTML = html;
+    var div = document.getElementById('result');
     var doc = div.appendChild(newElement);
     doc.getElementsByClassName('btn')[2].onclick = saveNoteAboutCompany;
     doc.getElementsByClassName('btn')[0].onclick = addNoteAboutCompany;
@@ -59,33 +59,42 @@ function createNewElement(company, index) {
 }
 
 function showCompanies() {
-    var urls = JSON.parse(localStorage.getItem('urls'));
-    countCompanies = document.getElementById("count");
-    countCompanies.innerHTML = "Найдено компаний: " + companies.length + " из " + companies.length;
-    getCompanies().filter(function (company, index) {    searchByParam;
-        if (localStorage.getItem('urls') !== null) {
-            for (var i = 0; i < urls.length; i++) {
-                if (company.DevByUrl === urls[i]) {
-                    return false;
-                } else {
-                    return true;
-                }
-            }
-        }
+    var div = document.getElementById('result');
+    div.innerHTML = "";
+
+    var a = localStorage.getItem('urls');
+
+    var urls = a === null ? [] : JSON.parse(a);
+
+    var companies = getCompanies();
+
+    var filteredCompanies = companies.filter(function (company, index) {
+        //searchByParam();
+ 
+        if (urls.includes(company.DevByUrl)) {
+        // hidden company
+        return false;
+    }
+
+    var searchStringName = document.getElementById("searchByName").value;
+    var searchStringTags = document.getElementById("selectTags").value;
+
+    if (searchStringName && company.Name.indexOf(searchStringName) == -1) {
+        // name doesn't match
+        return false;
+    }
+        if (searchStringTags && company.Tags.includes(searchStringTags) == false) {
+            return false;
      
-    });
-    getCompanies().forEach(function (company, index) {
-        createNewElement(company, index);
-    });
+    }
+    return true;
+});
 
-    // if (localStorage.getItem('myCompany') !== null) {
-
-    //     for (var i = 0; i < myCard.length; i++) {
-    //         var myCardElement = document.getAttribute(myCard[i]);
-    //         myCardElement.parentNode.removeChild(myCardElement);
-    //         document.getElementById('hiddenCompanies').appendChild(myCardElement);
-    //     }
-    // }
+filteredCompanies.forEach(function (company, index) {
+    createNewElement(company, index);
+});
+countCompanies = document.getElementById("count");
+countCompanies.innerHTML = "Найдено компаний: " + filteredCompanies.length + " из " + companies.length;
 }
 
 function hiddenCompany(elem) {
@@ -97,50 +106,12 @@ function hiddenCompany(elem) {
     if (hiddenCompanyIds == null || hiddenCompanyIds == undefined) {
         hiddenCompanyIds = [];
     }
-    var attributeCards = card.attributes[2].value;
+    var attributeCards = card.getAttribute("data-company-url");
     hiddenCompanyIds.push(attributeCards);
     var hiddenCompanyIdsJson = JSON.stringify(hiddenCompanyIds);
     localStorage.setItem('urls', hiddenCompanyIdsJson);
 }
 
-function searchByParam() {
-    var searchStringName = document.getElementById("searchByName").value;
-    var searchStringTags = document.getElementById("selectTags").value;
-    var myExpName = new RegExp(searchStringName, "i");
-    var myExpTags = new RegExp(searchStringTags, "i");
-    var count = 0;
-    div.innerHTML = "";
-
-    getCompanies().forEach(function (company, index) {
-        if (searchStringName && !searchStringTags) {
-            if ((company.Name.search(myExpName) != -1)) {
-                createNewElement(company, index);
-                count++;
-            }
-        }
-        else if (searchStringTags && !searchStringName) {
-            for (var i = 0; i < company.Tags.length; i++) {
-                if ((company.Tags[i].search(myExpTags) != -1)) {
-                    createNewElement(company, index);
-                    count++;
-                }
-            }
-        }
-        else if ((searchStringName) && (searchStringTags)) {
-            for (var i = 0; i < company.Tags.length; i++) {
-                if ((company.Name.search(myExpName) != -1) && (company.Tags[i].search(myExpTags) != -1)) {
-                    createNewElement(company, index);
-                    count++;
-                }
-            }
-        }
-        else if ((!searchStringName) && (!searchStringTags)) {
-            createNewElement(company, index);
-            count++;
-        }
-        countCompanies.innerHTML = "Найдено компаний: " + count + " из " + companies.length;
-    });
-}
 
 function updateSelect() {
     var tagsFromCompanies = getTagsFromCompanies();
@@ -191,7 +162,7 @@ function saveNoteAboutCompany(elem) {
 }
 
 function getTagsFromCompanies() {
-    var getTagsCompanies = removeWhiteSpacesFromTags(companies);
+    var getTagsCompanies = removeWhiteSpacesFromTags(getCompanies());
     var myArray = createArrayTags();
     var arrayObjectTags = [];
 
@@ -211,7 +182,7 @@ function getTagsFromCompanies() {
 }
 
 function createArrayTags() {
-    var tags = removeWhiteSpacesFromTags(companies);
+    var tags = removeWhiteSpacesFromTags(getCompanies());
     var myArray = [];
     myArray = unique(tags);// создание массива эксклюзивных значений направлений
     myArray.sort();
@@ -222,10 +193,8 @@ function removeWhiteSpacesFromTags(companies) {
     var tags = [];
     companies.forEach(function (company, index) {
         for (var i = 0; i < company.Tags.length; i++) {
-            {
-                company.Tags[i] = company.Tags[i].trim();
-                tags.push(company.Tags[i]);
-            }
+            company.Tags[i] = company.Tags[i].trim();
+            tags.push(company.Tags[i]);
         }
     });
     return tags;
