@@ -56,3 +56,22 @@ function getCompanies() {
         return allCompanies;
     }
 }
+function getCompanyByDevUrl(id) {
+    var companies = getCompanies();
+    companies.forEach(function (company, index) {
+        if (id == company.DevByUrl) {
+            return company;
+        }
+    });
+
+}
+function updateCompany(сompany) {
+    var companies = getCompanies();
+    for (var i = 0; i < companies.length; i++) {
+        if (companies[i].DevByUrl == сompany.DevByUrl) {
+            companies.splice(i, i, сompany);
+            break;
+        }
+    }
+    localStorage.setItem('companies', JSON.stringify(companies));
+}
