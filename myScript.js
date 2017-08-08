@@ -62,16 +62,16 @@ function showCompanies() {
     var div = document.getElementById('result');
     div.innerHTML = "";
 
-    var a = localStorage.getItem('urls');
+    // var a = localStorage.getItem('urls');
 
-    var urls = a === null ? [] : JSON.parse(a);
+    // var urls = a === null ? [] : JSON.parse(a);
 
     var companies = getCompanies();
 
     var filteredCompanies = companies.filter(function (company, index) {
         //searchByParam();
 
-        if (urls.includes(company.DevByUrl)) {
+        if (company.Hidden == true) {
             // hidden company
             return false;
         }
@@ -100,17 +100,23 @@ function showCompanies() {
 
 function hiddenCompany(elem) {
     var card = elem.currentTarget.parentNode.parentNode;
-    card.parentNode.removeChild(card);
-    var hiddenCompanies = document.getElementById("hiddenCompanies");
-    hiddenCompanies.appendChild(card);
-    var hiddenCompanyUrl = JSON.parse(localStorage.getItem('urls'));
-    if (hiddenCompanyUrl == null || hiddenCompanyUrl == undefined) {
-        hiddenCompanyUrl = [];
-    }
+    // card.parentNode.removeChild(card);
+    // var hiddenCompanies = document.getElementById("hiddenCompanies");
+    // hiddenCompanies.appendChild(card);
+    // var hiddenCompanyUrl = JSON.parse(localStorage.getItem('urls'));
+    // if (hiddenCompanyUrl == null || hiddenCompanyUrl == undefined) {
+    //     hiddenCompanyUrl = [];
+    // }
     var attributeCards = card.getAttribute("data-company-url");
-    hiddenCompanyUrl.push(attributeCards);
-    var hiddenCompanyUrlJson = JSON.stringify(hiddenCompanyUrl);
-    localStorage.setItem('urls', hiddenCompanyUrlJson);
+    var сompany = getCompanyByDevUrl(attributeCards);
+    сompany.Hidden = true;
+    updateCompany(сompany);
+    // showCompanies();
+
+
+    // hiddenCompanyUrl.push(attributeCards);
+    // var hiddenCompanyUrlJson = JSON.stringify(hiddenCompanyUrl);
+    // localStorage.setItem('urls', hiddenCompanyUrlJson);
 }
 
 
@@ -203,16 +209,16 @@ function removeWhiteSpacesFromTags(companies) {
 
 function showHiddenCompanies() {
 
-    var a = localStorage.getItem('urls');
+    // var a = localStorage.getItem('urls');
 
-    var urls = a === null ? [] : JSON.parse(a);
+    // var urls = a === null ? [] : JSON.parse(a);
 
     var companies = getCompanies();
 
     var filteredCompanies = companies.filter(function (company, index) {
         //searchByParam();
 
-        if (urls.includes(company.DevByUrl)) {
+        if (company.Hidden) {
             // hidden company
             return true;
         }
