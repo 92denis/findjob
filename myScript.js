@@ -111,7 +111,7 @@ function hiddenCompany(elem) {
     var сompany = getCompanyByDevUrl(attributeCards);
     сompany.Hidden = true;
     updateCompany(сompany);
-    // showCompanies();
+    showCompanies();
 
 
     // hiddenCompanyUrl.push(attributeCards);
