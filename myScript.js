@@ -39,7 +39,7 @@ function createNewElement(company, index, div) {
              <p class="card-text">Сайт: <a href="` + company.Url + '">' + company.Url + `</a></p>
              <p class="card-text">Ссылка dev.by: <a href="` + company.DevByUrl + '">' + company.DevByUrl + `</a></p>
              <p class="card-text">Адрес: ` + company.Offices + `</p>
-             <label> Заметка:<p class="card-text"></p></label>
+             <label> Заметка:<p class="card-text"> `+ company.Note + `</p></label>
               <textarea class="form-control" rows="3" id="comment"></textarea> 
               <button style="margin: 10px 0px;" class="col-lg-2 col-md-12 col-sm-12 btn btn-secondary" type="button">Добавить заметку</button>
               <button style="margin: 10px 0px;" class="col-lg-3 col-md-12 col-sm-12 btn btn-secondary" type="button">Редактировать</button>
@@ -62,14 +62,9 @@ function showCompanies() {
     var div = document.getElementById('result');
     div.innerHTML = "";
 
-    // var a = localStorage.getItem('urls');
-
-    // var urls = a === null ? [] : JSON.parse(a);
-
     var companies = getCompanies();
 
     var filteredCompanies = companies.filter(function (company, index) {
-        //searchByParam();
 
         if (company.Hidden == true) {
             // hidden company
@@ -100,23 +95,11 @@ function showCompanies() {
 
 function hiddenCompany(elem) {
     var card = elem.currentTarget.parentNode.parentNode;
-    // card.parentNode.removeChild(card);
-    // var hiddenCompanies = document.getElementById("hiddenCompanies");
-    // hiddenCompanies.appendChild(card);
-    // var hiddenCompanyUrl = JSON.parse(localStorage.getItem('urls'));
-    // if (hiddenCompanyUrl == null || hiddenCompanyUrl == undefined) {
-    //     hiddenCompanyUrl = [];
-    // }
     var attributeCards = card.getAttribute("data-company-url");
     var сompany = getCompanyByDevUrl(attributeCards);
     сompany.Hidden = true;
     updateCompany(сompany);
     showCompanies();
-
-
-    // hiddenCompanyUrl.push(attributeCards);
-    // var hiddenCompanyUrlJson = JSON.stringify(hiddenCompanyUrl);
-    // localStorage.setItem('urls', hiddenCompanyUrlJson);
 }
 
 
@@ -142,17 +125,21 @@ function unique(arr) {
 function addNoteAboutCompany(elem) {
     var card = elem.currentTarget.parentNode.parentNode;
     var newNote = card.childNodes[3].childNodes[17];
-    var noteAboutCompany = card.childNodes[3].childNodes[15].childNodes[1];
-    noteAboutCompany.innerText += ' ' + newNote.value;
+    var attributeCards = card.getAttribute("data-company-url");
+    var сompany = getCompanyByDevUrl(attributeCards);
+    сompany.Note += ' ' + newNote.value;
     newNote.value = " ";
-
+    updateCompany(сompany);
+    showCompanies();
 }
 
 function editNoteAboutCompany(elem) {
     var card = elem.currentTarget.parentNode.parentNode;
     var newNote = card.childNodes[3].childNodes[17];
-    var noteAboutCompany = card.childNodes[3].childNodes[15].childNodes[1];
-    newNote.value = noteAboutCompany.innerText;
+    var attributeCards = card.getAttribute("data-company-url");
+    var сompany = getCompanyByDevUrl(attributeCards);
+    newNote.value = сompany.Note;
+    updateCompany(сompany);
     var edit = card.childNodes[3].childNodes[21].style.display = 'none';
     var save = card.childNodes[3].childNodes[23].style.display = 'inline-block';
 
@@ -160,8 +147,11 @@ function editNoteAboutCompany(elem) {
 function saveNoteAboutCompany(elem) {
     var card = elem.currentTarget.parentNode.parentNode;
     var newNote = card.childNodes[3].childNodes[17];
-    var noteAboutCompany = card.childNodes[3].childNodes[15].childNodes[1];
-    noteAboutCompany.innerText = newNote.value;
+    var attributeCards = card.getAttribute("data-company-url");
+    var сompany = getCompanyByDevUrl(attributeCards);
+    сompany.Note = newNote.value;
+    updateCompany(сompany);
+    showCompanies();
     var edit = card.childNodes[3].childNodes[21].style.display = 'inline-block';
     var save = card.childNodes[3].childNodes[23].style.display = 'none';
     newNote.value = " ";
@@ -208,11 +198,6 @@ function removeWhiteSpacesFromTags(companies) {
 }
 
 function showHiddenCompanies() {
-
-    // var a = localStorage.getItem('urls');
-
-    // var urls = a === null ? [] : JSON.parse(a);
-
     var companies = getCompanies();
 
     var filteredCompanies = companies.filter(function (company, index) {

@@ -7,6 +7,7 @@ function getCompanies() {
         for (var i = 0; i < allCompanies.length; i++) {
             for (var j = 0; j < allCompanies[i].Tags.length; j++) {
                 allCompanies[i].Tags[j] = allCompanies[i].Tags[j].trim();
+                allCompanies[i].Note = " ";
             }
         }
     }
