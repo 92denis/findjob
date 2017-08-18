@@ -5,12 +5,12 @@ function loadCompanies() {
     xhr.open('GET', 'companies.json', true);
 
     xhr.onreadystatechange = function () { // (3)
-        if (xhr.readyState != 4) {
+        if (xhr.readyState !== 4) {
             return;
         }
 
 
-        if (xhr.status != 200) {
+        if (xhr.status !== 200) {
             alert(xhr.status + ': ' + xhr.statusText);
         } else {
 
@@ -20,7 +20,7 @@ function loadCompanies() {
             getTagsFromCompanies();
             showHiddenCompanies();
         }
-    }
+    };
     xhr.send(); // (1)
 
 }
@@ -66,7 +66,7 @@ function showCompanies() {
 
     var filteredCompanies = companies.filter(function (company, index) {
 
-        if (company.Hidden == true) {
+        if (company.Hidden === true) {
             // hidden company
             return false;
         }
@@ -74,11 +74,11 @@ function showCompanies() {
         var searchStringName = document.getElementById("searchByName").value;
         var searchStringTags = document.getElementById("selectTags").value;
 
-        if (searchStringName && company.Name.indexOf(searchStringName) == -1) {
+        if (searchStringName && company.Name.indexOf(searchStringName) === -1) {
             // name doesn't match
             return false;
         }
-        if (searchStringTags && company.Tags.includes(searchStringTags) == false) {
+        if (searchStringTags && company.Tags.includes(searchStringTags) === false) {
             return false;
 
         }
@@ -139,7 +139,6 @@ function editNoteAboutCompany(elem) {
     var attributeCards = card.getAttribute("data-company-url");
     var сompany = getCompanyByDevUrl(attributeCards);
     newNote.value = сompany.Note;
-    updateCompany(сompany);
     var edit = card.childNodes[3].childNodes[21].style.display = 'none';
     var save = card.childNodes[3].childNodes[23].style.display = 'inline-block';
 
@@ -167,7 +166,7 @@ function getTagsFromCompanies() {
         var count = 0;
         var tags = {};
         for (var j = 0; j < getTagsCompanies.length; j++) {
-            if (myArray[i] == getTagsCompanies[j]) {
+            if (myArray[i] === getTagsCompanies[j]) {
                 count++;
             }
             tags.name = myArray[i];

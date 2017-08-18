@@ -1,7 +1,7 @@
 function getCompanies() {
     var allCompanies = JSON.parse(localStorage.getItem('companies'));
 
-    if (allCompanies == null || allCompanies == undefined) {
+    if (allCompanies === null || allCompanies === undefined) {
         allCompanies = getInitialCompnaies();
 
         for (var i = 0; i < allCompanies.length; i++) {
@@ -17,7 +17,7 @@ function getCompanies() {
 function getCompanyByDevUrl(id) {
     var companies = getCompanies();
     for (var i = 0; i < companies.length; i++) {
-        if (id == companies[i].DevByUrl) {
+        if (id === companies[i].DevByUrl) {
             return companies[i];
         }
     }
@@ -26,7 +26,7 @@ function getCompanyByDevUrl(id) {
 function updateCompany(сompany) {
     var companies = getCompanies();
     for (var i = 0; i < companies.length; i++) {
-        if (companies[i].DevByUrl == сompany.DevByUrl) {
+        if (companies[i].DevByUrl === сompany.DevByUrl) {
             companies.splice(i, 1, сompany);
             break;
         }
