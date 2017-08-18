@@ -55,6 +55,13 @@ function createNewElement(company, index, div) {
     doc.getElementsByClassName('btn')[0].onclick = addNoteAboutCompany;
     doc.getElementsByClassName('btn')[1].onclick = editNoteAboutCompany;
     doc.getElementsByClassName('btn-primary')[0].onclick = hiddenCompany;
+    if (company.Note === " ") {
+        var edit = doc.getElementsByClassName('btn')[1].style.display = 'none';
+        var save = doc.getElementsByClassName('btn')[2].style.display = 'none';
+    } else {
+        edit = 'none';
+        save = 'inline-block';
+    }
 
 }
 
@@ -107,8 +114,11 @@ function updateSelect() {
     var tagsFromCompanies = getTagsFromCompanies();
     for (var i = 0; i < tagsFromCompanies.length; i++) {
         var options = selectTags.appendChild(document.createElement('option'));
-        options.innerHTML = tagsFromCompanies[i].name + ' (' + tagsFromCompanies[i].count + ')';
-        options.value = tagsFromCompanies[i].name;
+        if (i === 0) { options.innerHTML = tagsFromCompanies[i].name; }
+        else {
+            options.innerHTML = tagsFromCompanies[i].name + ' (' + tagsFromCompanies[i].count + ')';
+            options.value = tagsFromCompanies[i].name;
+        }
     }
 }
 // функция для удаления одинаковых значений массива
@@ -127,7 +137,7 @@ function addNoteAboutCompany(elem) {
     var newNote = card.childNodes[3].childNodes[17];
     var attributeCards = card.getAttribute("data-company-url");
     var сompany = getCompanyByDevUrl(attributeCards);
-    сompany.Note += ' ' + newNote.value;
+    сompany.Note += newNote.value;
     newNote.value = " ";
     updateCompany(сompany);
     showCompanies();
@@ -149,12 +159,10 @@ function saveNoteAboutCompany(elem) {
     var attributeCards = card.getAttribute("data-company-url");
     var сompany = getCompanyByDevUrl(attributeCards);
     сompany.Note = newNote.value;
-    updateCompany(сompany);
-    showCompanies();
     var edit = card.childNodes[3].childNodes[21].style.display = 'inline-block';
     var save = card.childNodes[3].childNodes[23].style.display = 'none';
-    newNote.value = " ";
-
+    updateCompany(сompany);
+    showCompanies();
 }
 
 function getTagsFromCompanies() {
@@ -182,6 +190,7 @@ function createArrayTags() {
     var myArray = [];
     myArray = unique(tags);// создание массива эксклюзивных значений направлений
     myArray.sort();
+    myArray.unshift('');
     return myArray;
 }
 
