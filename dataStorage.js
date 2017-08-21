@@ -1,14 +1,6 @@
 
 function getCompanies() {
     var allCompanies = JSON.parse(localStorage.getItem('companies'));
-
-    for (var i = allCompanies.length; i--;) {
-        for (var j = allCompanies[i].Tags.length; j--;) {
-            allCompanies[i].Tags[j] = allCompanies[i].Tags[j].trim();
-            allCompanies[i].Note = " ";
-        }
-    }
-
     return allCompanies;
 }
 
@@ -48,8 +40,14 @@ function getInitialCompnaies(callback) {
             var allCompanies = JSON.parse(localStorage.getItem('companies'));
             if (allCompanies === null || allCompanies === undefined) {
                 allCompanies = companies;
-
+                
             }
+            for (var i = allCompanies.length; i--;) {
+                    for (var j = allCompanies[i].Tags.length; j--;) {
+                        allCompanies[i].Tags[j] = allCompanies[i].Tags[j].trim();
+                        allCompanies[i].Note = " ";
+                    }
+                }
             localStorage.setItem('companies', JSON.stringify(allCompanies));
         }
         callback();
