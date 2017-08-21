@@ -1,29 +1,7 @@
-loadCompanies();
-
-function loadCompanies() {
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', 'companies.json', true);
-
-    xhr.onreadystatechange = function () { // (3)
-        if (xhr.readyState !== 4) {
-            return;
-        }
-
-
-        if (xhr.status !== 200) {
-            alert(xhr.status + ': ' + xhr.statusText);
-        } else {
-
-            // var companies = JSON.parse(xhr.responseText);
-            showCompanies();
-            updateSelect();
-            getTagsFromCompanies();
-            showHiddenCompanies();
-        }
-    };
-    xhr.send(); // (1)
-
-}
+showCompanies();
+updateSelect();
+getTagsFromCompanies();
+showHiddenCompanies();
 
 function createNewElement(company, index, div) {
 
@@ -58,11 +36,7 @@ function createNewElement(company, index, div) {
     if (company.Note === " ") {
         var edit = doc.getElementsByClassName('btn')[1].style.display = 'none';
         var save = doc.getElementsByClassName('btn')[2].style.display = 'none';
-    } else {
-        edit = 'none';
-        save = 'inline-block';
     }
-
 }
 
 function showCompanies() {
@@ -190,7 +164,6 @@ function createArrayTags() {
     var myArray = [];
     myArray = unique(tags);// создание массива эксклюзивных значений направлений
     myArray.sort();
-    myArray.unshift('');
     return myArray;
 }
 
