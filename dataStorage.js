@@ -1,9 +1,9 @@
-getInitialCompnaies();
+
 function getCompanies() {
     var allCompanies = JSON.parse(localStorage.getItem('companies'));
 
-    for (var i = 0; i < allCompanies.length; i++) {
-        for (var j = 0; j < allCompanies[i].Tags.length; j++) {
+    for (var i = allCompanies.length; i--;) {
+        for (var j = allCompanies[i].Tags.length; j--;) {
             allCompanies[i].Tags[j] = allCompanies[i].Tags[j].trim();
             allCompanies[i].Note = " ";
         }
@@ -32,11 +32,10 @@ function updateCompany(сompany) {
     localStorage.setItem('companies', JSON.stringify(companies));
 }
 
-function getInitialCompnaies() {
+function getInitialCompnaies(callback) {
 
     var xhr = new XMLHttpRequest();
     xhr.open('GET', 'companies.json', true);
-
     xhr.onreadystatechange = function () { // (3)
         if (xhr.readyState !== 4) {
             return;
@@ -53,6 +52,8 @@ function getInitialCompnaies() {
             }
             localStorage.setItem('companies', JSON.stringify(allCompanies));
         }
+        callback();
     };
     xhr.send(); // (1)
+
 }

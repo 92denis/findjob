@@ -1,7 +1,11 @@
-showCompanies();
-updateSelect();
-getTagsFromCompanies();
-showHiddenCompanies();
+getInitialCompnaies(init);
+
+function init() {
+    showCompanies();
+    updateSelect();
+    getTagsFromCompanies();
+    showHiddenCompanies();
+}
 
 function createNewElement(company, index, div) {
 
@@ -25,6 +29,7 @@ function createNewElement(company, index, div) {
              <button class="btn btn-primary" >Скрыть</button>
          </div>
      </div>`;
+
     var newElement = document.createElement('div');
     newElement.innerHTML = html;
 
