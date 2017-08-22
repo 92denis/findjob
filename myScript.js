@@ -9,19 +9,19 @@ function init() {
 
 function createNewElement(company, index, div) {
 
-    let id = 'company' + index;
+    let id = `company${index}`;
     let html =
-        `<div class="card" id="` + id + `" data-company-url ="` + company.DevByUrl + `">                        
-         <div class="card-header">` + company.Title + `</div>
+        `<div class="card" id="${id}" data-company-url ="${company.DevByUrl}">                        
+         <div class="card-header">${company.Title}</div>
          <div class="card-block">
-             <h4 class="card-title">` + company.Name + `</h4>
-             <p class="card-text">Направления: ` + company.Tags + `</p>
-             <p class="card-text">Email: <a href="` + company.Email + '">' + company.Email.substring(7) + `</a></p>
-             <p class="card-text">Телефон: ` + company.Phone + `</p>
-             <p class="card-text">Сайт: <a href="` + company.Url + '">' + company.Url + `</a></p>
-             <p class="card-text">Ссылка dev.by: <a href="` + company.DevByUrl + '">' + company.DevByUrl + `</a></p>
-             <p class="card-text">Адрес: ` + company.Offices + `</p>
-             <label> Заметка:<p class="card-text"> `+ company.Note + `</p></label>
+             <h4 class="card-title">${company.Name}</h4>
+             <p class="card-text">Направления: ${company.Tags} </p>
+             <p class="card-text">Email: <a href="${company.Email}">${company.Email.substring(7)}</a></p>
+             <p class="card-text">Телефон: ${company.Phone} </p>
+             <p class="card-text">Сайт: <a href="${company.Url} ">${company.Url}</a></p>
+             <p class="card-text">Ссылка dev.by: <a href="${company.DevByUrl}">${company.DevByUrl}</a></p>
+             <p class="card-text">Адрес: ${company.Offices}</p>
+             <label> Заметка:<p class="card-text">${company.Note} </p></label>
               <textarea class="form-control" rows="3" id="comment"></textarea> 
               <button style="margin: 10px 0px;" class="col-lg-2 col-md-12 col-sm-12 btn btn-secondary" type="button">Добавить заметку</button>
               <button style="margin: 10px 0px;" class="col-lg-3 col-md-12 col-sm-12 btn btn-secondary" type="button">Редактировать</button>
@@ -76,7 +76,7 @@ function showCompanies() {
         createNewElement(company, index, div);
     });
     countCompanies = document.getElementById("count");
-    countCompanies.innerHTML = "Найдено компаний: " + filteredCompanies.length + " из " + companies.length;
+    countCompanies.innerHTML = `Найдено компаний: ${filteredCompanies.length}  из  ${companies.length}`;
 }
 
 function hiddenCompany(elem) {
@@ -95,7 +95,7 @@ function updateSelect() {
         let options = selectTags.appendChild(document.createElement('option'));
         if (i === 0) { options.innerHTML = tagsFromCompanies[i].name; }
         else {
-            options.innerHTML = tagsFromCompanies[i].name + ' (' + tagsFromCompanies[i].count + ')';
+            options.innerHTML = `${tagsFromCompanies[i].name}  (${tagsFromCompanies[i].count})`;
             options.value = tagsFromCompanies[i].name;
         }
     }
