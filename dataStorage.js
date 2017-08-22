@@ -1,9 +1,9 @@
-function getCompanies() {
+export function getCompanies() {
     let allCompanies = JSON.parse(localStorage.getItem('companies'));
     return allCompanies;
 }
 
-function getCompanyByDevUrl(id) {
+export function getCompanyByDevUrl(id) {
     let companies = getCompanies();
     for (let i = 0; i < companies.length; i++) {
         if (id === companies[i].DevByUrl) {
@@ -12,7 +12,7 @@ function getCompanyByDevUrl(id) {
     }
 }
 
-function updateCompany(сompany) {
+export function updateCompany(сompany) {
     let companies = getCompanies();
     for (let i = 0; i < companies.length; i++) {
         if (companies[i].DevByUrl === сompany.DevByUrl) {
@@ -23,7 +23,7 @@ function updateCompany(сompany) {
     localStorage.setItem('companies', JSON.stringify(companies));
 }
 
-function getInitialCompnaies(callback) {
+export function getInitialCompnaies(callback) {
     let allCompanies = getCompanies();
     if (allCompanies === null || allCompanies === undefined) {
         ajaxGet("companies.json", callback);
