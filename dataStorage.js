@@ -37,17 +37,12 @@ function getInitialCompnaies(callback) {
             if (xhr.status !== 200) {
                 alert(xhr.status + ': ' + xhr.statusText);
             } else {
-                var companies = JSON.parse(xhr.responseText);
-                allCompanies = companies;
-
-
-                for (var i = allCompanies.length; i--;) {
-                    for (var j = allCompanies[i].Tags.length; j--;) {
-                        allCompanies[i].Tags[j] = allCompanies[i].Tags[j].trim();
-                        allCompanies[i].Note = " ";
-                    }
-                }
-                localStorage.setItem('companies', JSON.stringify(allCompanies));
+                var companiesJson= JSON.parse(xhr.responseText);
+                allCompanies = companiesJson;
+                var companies = deleteWhiteSpacesFromTags(allCompanies);
+            
+                
+                localStorage.setItem('companies', JSON.stringify(companies));
             }
             callback();
         };
@@ -55,4 +50,14 @@ function getInitialCompnaies(callback) {
     } else {
         callback();
     }
+}
+
+function deleteWhiteSpacesFromTags(allCompanies) {
+    for (var i = allCompanies.length; i--;) {
+        for (var j = allCompanies[i].Tags.length; j--;) {
+            allCompanies[i].Tags[j] = allCompanies[i].Tags[j].trim();
+            allCompanies[i].Note = " ";
+        }
+    }
+ return allCompanies;
 }
