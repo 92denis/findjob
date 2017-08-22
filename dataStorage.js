@@ -1,4 +1,3 @@
-
 function getCompanies() {
     var allCompanies = JSON.parse(localStorage.getItem('companies'));
     return allCompanies;
@@ -27,17 +26,17 @@ function updateCompany(сompany) {
 function getInitialCompnaies(callback) {
     var allCompanies = getCompanies();
     if (allCompanies === null || allCompanies === undefined) {
-        ajaxGet("companies.json", init);
+        ajaxGet("companies.json", callback);
         } else {
         callback();
     }
-
 }
 
 function ajaxGet(url, callback) {
     var xhr = new XMLHttpRequest();
     xhr.open('GET', url, true);
-    xhr.onreadystatechange = function () { // (3)
+    xhr.onreadystatechange = function () { 
+
         if (xhr.readyState !== 4) {
             return;
         }
@@ -49,12 +48,11 @@ function ajaxGet(url, callback) {
             allCompanies = companiesJson;
             var companies = deleteWhiteSpacesFromTags(allCompanies);
 
-
             localStorage.setItem('companies', JSON.stringify(companies));
         }
         callback();
     };
-    xhr.send(); // (1)
+    xhr.send(); 
 }
 
 function deleteWhiteSpacesFromTags(allCompanies) {
