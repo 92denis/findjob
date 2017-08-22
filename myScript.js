@@ -50,7 +50,7 @@ function showCompanies() {
 
     let companies = getCompanies();
 
-    let filteredCompanies = companies.filter(function (company) {
+    let filteredCompanies = companies.filter((company) => {
 
         if (company.Hidden === true) {
             // hidden company
@@ -71,7 +71,7 @@ function showCompanies() {
         return true;
     });
 
-    filteredCompanies.forEach(function (company, index) {
+    filteredCompanies.forEach((company, index) => {
         let div = document.getElementById('result');
         createNewElement(company, index, div);
     });
@@ -174,7 +174,7 @@ function createArrayTags() {
 
 function removeWhiteSpacesFromTags(companies) {
     let tags = [];
-    companies.forEach(function (company) {
+    companies.forEach((company) => {
         for (let i = 0; i < company.Tags.length; i++) {
             company.Tags[i] = company.Tags[i].trim();
             tags.push(company.Tags[i]);
@@ -186,7 +186,7 @@ function removeWhiteSpacesFromTags(companies) {
 function showHiddenCompanies() {
     let companies = getCompanies();
 
-    let filteredCompanies = companies.filter(function (company, index) {
+    let filteredCompanies = companies.filter((company) => {
         //searchByParam();
 
         if (company.Hidden) {
@@ -196,7 +196,7 @@ function showHiddenCompanies() {
         return false;
     });
 
-    filteredCompanies.forEach(function (company, index) {
+    filteredCompanies.forEach((company, index) => {
         let div = document.getElementById("hiddenCompanies");
         createNewElement(company, index, div);
     });
