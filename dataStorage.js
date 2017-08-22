@@ -25,33 +25,34 @@ function updateCompany(сompany) {
 }
 
 function getInitialCompnaies(callback) {
-
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', 'companies.json', true);
-    xhr.onreadystatechange = function () { // (3)
-        if (xhr.readyState !== 4) {
-            return;
-        }
-
-        if (xhr.status !== 200) {
-            alert(xhr.status + ': ' + xhr.statusText);
-        } else {
-            var companies = JSON.parse(xhr.responseText);
-            var allCompanies = JSON.parse(localStorage.getItem('companies'));
-            if (allCompanies === null || allCompanies === undefined) {
-                allCompanies = companies;
-                
+    var allCompanies = getCompanies();
+    if (allCompanies === null || allCompanies === undefined) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'companies.json', true);
+        xhr.onreadystatechange = function () { // (3)
+            if (xhr.readyState !== 4) {
+                return;
             }
-            for (var i = allCompanies.length; i--;) {
+
+            if (xhr.status !== 200) {
+                alert(xhr.status + ': ' + xhr.statusText);
+            } else {
+                var companies = JSON.parse(xhr.responseText);
+                allCompanies = companies;
+
+
+                for (var i = allCompanies.length; i--;) {
                     for (var j = allCompanies[i].Tags.length; j--;) {
                         allCompanies[i].Tags[j] = allCompanies[i].Tags[j].trim();
                         allCompanies[i].Note = " ";
                     }
                 }
-            localStorage.setItem('companies', JSON.stringify(allCompanies));
-        }
+                localStorage.setItem('companies', JSON.stringify(allCompanies));
+            }
+            callback();
+        };
+        xhr.send(); // (1)
+    } else {
         callback();
-    };
-    xhr.send(); // (1)
-
+    }
 }
