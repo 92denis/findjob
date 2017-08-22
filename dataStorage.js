@@ -27,29 +27,34 @@ function updateCompany(сompany) {
 function getInitialCompnaies(callback) {
     var allCompanies = getCompanies();
     if (allCompanies === null || allCompanies === undefined) {
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', 'companies.json', true);
-        xhr.onreadystatechange = function () { // (3)
-            if (xhr.readyState !== 4) {
-                return;
-            }
-
-            if (xhr.status !== 200) {
-                alert(xhr.status + ': ' + xhr.statusText);
-            } else {
-                var companiesJson= JSON.parse(xhr.responseText);
-                allCompanies = companiesJson;
-                var companies = deleteWhiteSpacesFromTags(allCompanies);
-            
-                
-                localStorage.setItem('companies', JSON.stringify(companies));
-            }
-            callback();
-        };
-        xhr.send(); // (1)
-    } else {
+        ajaxGet("companies.json", init);
+        } else {
         callback();
     }
+
+}
+
+function ajaxGet(url, callback) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', url, true);
+    xhr.onreadystatechange = function () { // (3)
+        if (xhr.readyState !== 4) {
+            return;
+        }
+
+        if (xhr.status !== 200) {
+            alert(xhr.status + ': ' + xhr.statusText);
+        } else {
+            var companiesJson = JSON.parse(xhr.responseText);
+            allCompanies = companiesJson;
+            var companies = deleteWhiteSpacesFromTags(allCompanies);
+
+
+            localStorage.setItem('companies', JSON.stringify(companies));
+        }
+        callback();
+    };
+    xhr.send(); // (1)
 }
 
 function deleteWhiteSpacesFromTags(allCompanies) {
@@ -59,5 +64,5 @@ function deleteWhiteSpacesFromTags(allCompanies) {
             allCompanies[i].Note = " ";
         }
     }
- return allCompanies;
+    return allCompanies;
 }
