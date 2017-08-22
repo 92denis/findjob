@@ -155,12 +155,9 @@ function getTagsFromCompanies() {
 }
 
 function createArrayTags() {
-    let myArray = [];
     let tags = removeWhiteSpacesFromTags(getCompanies());
-    let exclusiveTags = new Set(tags);// создание массива эксклюзивных значений направлений
-    for (let value of exclusiveTags) {
-        myArray.push(value);
-    }
+    let myArray = new Set(tags);// создание массива эксклюзивных значений направлений
+    myArray = Array.from(myArray);
     myArray.sort();
     return myArray;
 }
