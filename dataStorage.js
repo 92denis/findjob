@@ -1,11 +1,11 @@
 function getCompanies() {
-    var allCompanies = JSON.parse(localStorage.getItem('companies'));
+    let allCompanies = JSON.parse(localStorage.getItem('companies'));
     return allCompanies;
 }
 
 function getCompanyByDevUrl(id) {
-    var companies = getCompanies();
-    for (var i = 0; i < companies.length; i++) {
+    let companies = getCompanies();
+    for (let i = 0; i < companies.length; i++) {
         if (id === companies[i].DevByUrl) {
             return companies[i];
         }
@@ -13,8 +13,8 @@ function getCompanyByDevUrl(id) {
 }
 
 function updateCompany(сompany) {
-    var companies = getCompanies();
-    for (var i = 0; i < companies.length; i++) {
+    let companies = getCompanies();
+    for (let i = 0; i < companies.length; i++) {
         if (companies[i].DevByUrl === сompany.DevByUrl) {
             companies.splice(i, 1, сompany);
             break;
@@ -24,7 +24,7 @@ function updateCompany(сompany) {
 }
 
 function getInitialCompnaies(callback) {
-    var allCompanies = getCompanies();
+    let allCompanies = getCompanies();
     if (allCompanies === null || allCompanies === undefined) {
         ajaxGet("companies.json", callback);
         } else {
@@ -33,7 +33,7 @@ function getInitialCompnaies(callback) {
 }
 
 function ajaxGet(url, callback) {
-    var xhr = new XMLHttpRequest();
+    let xhr = new XMLHttpRequest();
     xhr.open('GET', url, true);
     xhr.onreadystatechange = function () { 
 
@@ -44,9 +44,9 @@ function ajaxGet(url, callback) {
         if (xhr.status !== 200) {
             alert(xhr.status + ': ' + xhr.statusText);
         } else {
-            var companiesJson = JSON.parse(xhr.responseText);
+            let companiesJson = JSON.parse(xhr.responseText);
             allCompanies = companiesJson;
-            var companies = deleteWhiteSpacesFromTags(allCompanies);
+            let companies = deleteWhiteSpacesFromTags(allCompanies);
 
             localStorage.setItem('companies', JSON.stringify(companies));
         }
@@ -56,8 +56,8 @@ function ajaxGet(url, callback) {
 }
 
 function deleteWhiteSpacesFromTags(allCompanies) {
-    for (var i = allCompanies.length; i--;) {
-        for (var j = allCompanies[i].Tags.length; j--;) {
+    for (let i = allCompanies.length; i--;) {
+        for (let j = allCompanies[i].Tags.length; j--;) {
             allCompanies[i].Tags[j] = allCompanies[i].Tags[j].trim();
             allCompanies[i].Note = " ";
         }

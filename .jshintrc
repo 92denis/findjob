@@ -3,5 +3,6 @@
   "eqeqeq": true,
   "esversion": 6,
   "browser": true, 
-  "nocomma": true
+  "nocomma": true,
+  "varstmt": true
 }

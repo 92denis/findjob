@@ -9,8 +9,8 @@ function init() {
 
 function createNewElement(company, index, div) {
 
-    var id = 'company' + index;
-    var html =
+    let id = 'company' + index;
+    let html =
         `<div class="card" id="` + id + `" data-company-url ="` + company.DevByUrl + `">                        
          <div class="card-header">` + company.Title + `</div>
          <div class="card-block">
@@ -30,35 +30,35 @@ function createNewElement(company, index, div) {
          </div>
      </div>`;
 
-    var newElement = document.createElement('div');
+    let newElement = document.createElement('div');
     newElement.innerHTML = html;
 
-    var doc = div.appendChild(newElement);
+    let doc = div.appendChild(newElement);
     doc.getElementsByClassName('btn')[2].onclick = saveNoteAboutCompany;
     doc.getElementsByClassName('btn')[0].onclick = addNoteAboutCompany;
     doc.getElementsByClassName('btn')[1].onclick = editNoteAboutCompany;
     doc.getElementsByClassName('btn-primary')[0].onclick = hiddenCompany;
     if (company.Note === " ") {
-        var edit = doc.getElementsByClassName('btn')[1].style.display = 'none';
-        var save = doc.getElementsByClassName('btn')[2].style.display = 'none';
+        let edit = doc.getElementsByClassName('btn')[1].style.display = 'none';
+        let save = doc.getElementsByClassName('btn')[2].style.display = 'none';
     }
 }
 
 function showCompanies() {
-    var div = document.getElementById('result');
+    let div = document.getElementById('result');
     div.innerHTML = "";
 
-    var companies = getCompanies();
+    let companies = getCompanies();
 
-    var filteredCompanies = companies.filter(function (company, index) {
+    let filteredCompanies = companies.filter(function (company, index) {
 
         if (company.Hidden === true) {
             // hidden company
             return false;
         }
 
-        var searchStringName = document.getElementById("searchByName").value;
-        var searchStringTags = document.getElementById("selectTags").value;
+        let searchStringName = document.getElementById("searchByName").value;
+        let searchStringTags = document.getElementById("selectTags").value;
 
         if (searchStringName && company.Name.indexOf(searchStringName) === -1) {
             // name doesn't match
@@ -72,7 +72,7 @@ function showCompanies() {
     });
 
     filteredCompanies.forEach(function (company, index) {
-        var div = document.getElementById('result');
+        let div = document.getElementById('result');
         createNewElement(company, index, div);
     });
     countCompanies = document.getElementById("count");
@@ -80,9 +80,9 @@ function showCompanies() {
 }
 
 function hiddenCompany(elem) {
-    var card = elem.currentTarget.parentNode.parentNode;
-    var attributeCards = card.getAttribute("data-company-url");
-    var сompany = getCompanyByDevUrl(attributeCards);
+    let card = elem.currentTarget.parentNode.parentNode;
+    let attributeCards = card.getAttribute("data-company-url");
+    let сompany = getCompanyByDevUrl(attributeCards);
     сompany.Hidden = true;
     updateCompany(сompany);
     showCompanies();
@@ -90,9 +90,9 @@ function hiddenCompany(elem) {
 
 
 function updateSelect() {
-    var tagsFromCompanies = getTagsFromCompanies();
-    for (var i = 0; i < tagsFromCompanies.length; i++) {
-        var options = selectTags.appendChild(document.createElement('option'));
+    let tagsFromCompanies = getTagsFromCompanies();
+    for (let i = 0; i < tagsFromCompanies.length; i++) {
+        let options = selectTags.appendChild(document.createElement('option'));
         if (i === 0) { options.innerHTML = tagsFromCompanies[i].name; }
         else {
             options.innerHTML = tagsFromCompanies[i].name + ' (' + tagsFromCompanies[i].count + ')';
@@ -102,20 +102,20 @@ function updateSelect() {
 }
 // функция для удаления одинаковых значений массива
 function unique(arr) {
-    var obj = {};
+    let obj = {};
 
-    for (var i = 0; i < arr.length; i++) {
-        var str = arr[i];
+    for (let i = 0; i < arr.length; i++) {
+        let str = arr[i];
         obj[str] = true;
     }
     return Object.keys(obj);
 }
 
 function addNoteAboutCompany(elem) {
-    var card = elem.currentTarget.parentNode.parentNode;
-    var newNote = card.childNodes[3].childNodes[17];
-    var attributeCards = card.getAttribute("data-company-url");
-    var сompany = getCompanyByDevUrl(attributeCards);
+    let card = elem.currentTarget.parentNode.parentNode;
+    let newNote = card.childNodes[3].childNodes[17];
+    let attributeCards = card.getAttribute("data-company-url");
+    let сompany = getCompanyByDevUrl(attributeCards);
     сompany.Note += newNote.value;
     newNote.value = " ";
     updateCompany(сompany);
@@ -123,36 +123,36 @@ function addNoteAboutCompany(elem) {
 }
 
 function editNoteAboutCompany(elem) {
-    var card = elem.currentTarget.parentNode.parentNode;
-    var newNote = card.childNodes[3].childNodes[17];
-    var attributeCards = card.getAttribute("data-company-url");
-    var сompany = getCompanyByDevUrl(attributeCards);
+    let card = elem.currentTarget.parentNode.parentNode;
+    let newNote = card.childNodes[3].childNodes[17];
+    let attributeCards = card.getAttribute("data-company-url");
+    let сompany = getCompanyByDevUrl(attributeCards);
     newNote.value = сompany.Note;
-    var edit = card.childNodes[3].childNodes[21].style.display = 'none';
-    var save = card.childNodes[3].childNodes[23].style.display = 'inline-block';
+    let edit = card.childNodes[3].childNodes[21].style.display = 'none';
+    let save = card.childNodes[3].childNodes[23].style.display = 'inline-block';
 
 }
 function saveNoteAboutCompany(elem) {
-    var card = elem.currentTarget.parentNode.parentNode;
-    var newNote = card.childNodes[3].childNodes[17];
-    var attributeCards = card.getAttribute("data-company-url");
-    var сompany = getCompanyByDevUrl(attributeCards);
+    let card = elem.currentTarget.parentNode.parentNode;
+    let newNote = card.childNodes[3].childNodes[17];
+    let attributeCards = card.getAttribute("data-company-url");
+    let сompany = getCompanyByDevUrl(attributeCards);
     сompany.Note = newNote.value;
-    var edit = card.childNodes[3].childNodes[21].style.display = 'inline-block';
-    var save = card.childNodes[3].childNodes[23].style.display = 'none';
+    let edit = card.childNodes[3].childNodes[21].style.display = 'inline-block';
+    let save = card.childNodes[3].childNodes[23].style.display = 'none';
     updateCompany(сompany);
     showCompanies();
 }
 
 function getTagsFromCompanies() {
-    var getTagsCompanies = removeWhiteSpacesFromTags(getCompanies());
-    var myArray = createArrayTags();
-    var arrayObjectTags = [];
+    let getTagsCompanies = removeWhiteSpacesFromTags(getCompanies());
+    let myArray = createArrayTags();
+    let arrayObjectTags = [];
 
-    for (var i = 0; i < myArray.length; i++) {
-        var count = 0;
-        var tags = {};
-        for (var j = 0; j < getTagsCompanies.length; j++) {
+    for (let i = 0; i < myArray.length; i++) {
+        let count = 0;
+        let tags = {};
+        for (let j = 0; j < getTagsCompanies.length; j++) {
             if (myArray[i] === getTagsCompanies[j]) {
                 count++;
             }
@@ -165,17 +165,17 @@ function getTagsFromCompanies() {
 }
 
 function createArrayTags() {
-    var tags = removeWhiteSpacesFromTags(getCompanies());
-    var myArray = [];
+    let tags = removeWhiteSpacesFromTags(getCompanies());
+    let myArray = [];
     myArray = unique(tags);// создание массива эксклюзивных значений направлений
     myArray.sort();
     return myArray;
 }
 
 function removeWhiteSpacesFromTags(companies) {
-    var tags = [];
+    let tags = [];
     companies.forEach(function (company, index) {
-        for (var i = 0; i < company.Tags.length; i++) {
+        for (let i = 0; i < company.Tags.length; i++) {
             company.Tags[i] = company.Tags[i].trim();
             tags.push(company.Tags[i]);
         }
@@ -184,9 +184,9 @@ function removeWhiteSpacesFromTags(companies) {
 }
 
 function showHiddenCompanies() {
-    var companies = getCompanies();
+    let companies = getCompanies();
 
-    var filteredCompanies = companies.filter(function (company, index) {
+    let filteredCompanies = companies.filter(function (company, index) {
         //searchByParam();
 
         if (company.Hidden) {
@@ -197,7 +197,7 @@ function showHiddenCompanies() {
     });
 
     filteredCompanies.forEach(function (company, index) {
-        var div = document.getElementById("hiddenCompanies");
+        let div = document.getElementById("hiddenCompanies");
         createNewElement(company, index, div);
     });
 }
