@@ -100,16 +100,6 @@ function updateSelect() {
         }
     }
 }
-// функция для удаления одинаковых значений массива
-function unique(arr) {
-    let obj = {};
-
-    for (let i = 0; i < arr.length; i++) {
-        let str = arr[i];
-        obj[str] = true;
-    }
-    return Object.keys(obj);
-}
 
 function addNoteAboutCompany(elem) {
     let card = elem.currentTarget.parentNode.parentNode;
@@ -165,9 +155,12 @@ function getTagsFromCompanies() {
 }
 
 function createArrayTags() {
-    let tags = removeWhiteSpacesFromTags(getCompanies());
     let myArray = [];
-    myArray = unique(tags);// создание массива эксклюзивных значений направлений
+    let tags = removeWhiteSpacesFromTags(getCompanies());
+    let exclusiveTags = new Set(tags);// создание массива эксклюзивных значений направлений
+    for (let value of exclusiveTags) {
+        myArray.push(value);
+    }
     myArray.sort();
     return myArray;
 }
