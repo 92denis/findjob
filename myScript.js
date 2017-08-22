@@ -39,8 +39,8 @@ function createNewElement(company, index, div) {
     doc.getElementsByClassName('btn')[1].onclick = editNoteAboutCompany;
     doc.getElementsByClassName('btn-primary')[0].onclick = hiddenCompany;
     if (company.Note === " ") {
-        let edit = doc.getElementsByClassName('btn')[1].style.display = 'none';
-        let save = doc.getElementsByClassName('btn')[2].style.display = 'none';
+        doc.getElementsByClassName('btn')[1].style.display = 'none';
+        doc.getElementsByClassName('btn')[2].style.display = 'none';
     }
 }
 
@@ -50,7 +50,7 @@ function showCompanies() {
 
     let companies = getCompanies();
 
-    let filteredCompanies = companies.filter(function (company, index) {
+    let filteredCompanies = companies.filter(function (company) {
 
         if (company.Hidden === true) {
             // hidden company
@@ -128,8 +128,8 @@ function editNoteAboutCompany(elem) {
     let attributeCards = card.getAttribute("data-company-url");
     let сompany = getCompanyByDevUrl(attributeCards);
     newNote.value = сompany.Note;
-    let edit = card.childNodes[3].childNodes[21].style.display = 'none';
-    let save = card.childNodes[3].childNodes[23].style.display = 'inline-block';
+    card.childNodes[3].childNodes[21].style.display = 'none';
+    card.childNodes[3].childNodes[23].style.display = 'inline-block';
 
 }
 function saveNoteAboutCompany(elem) {
@@ -138,8 +138,8 @@ function saveNoteAboutCompany(elem) {
     let attributeCards = card.getAttribute("data-company-url");
     let сompany = getCompanyByDevUrl(attributeCards);
     сompany.Note = newNote.value;
-    let edit = card.childNodes[3].childNodes[21].style.display = 'inline-block';
-    let save = card.childNodes[3].childNodes[23].style.display = 'none';
+    card.childNodes[3].childNodes[21].style.display = 'inline-block';
+    card.childNodes[3].childNodes[23].style.display = 'none';
     updateCompany(сompany);
     showCompanies();
 }
@@ -174,7 +174,7 @@ function createArrayTags() {
 
 function removeWhiteSpacesFromTags(companies) {
     let tags = [];
-    companies.forEach(function (company, index) {
+    companies.forEach(function (company) {
         for (let i = 0; i < company.Tags.length; i++) {
             company.Tags[i] = company.Tags[i].trim();
             tags.push(company.Tags[i]);

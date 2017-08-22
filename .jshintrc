@@ -4,5 +4,6 @@
   "esversion": 6,
   "browser": true, 
   "nocomma": true,
-  "varstmt": true
+  "varstmt": true,
+  "unused":true
 }
