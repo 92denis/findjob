@@ -1,4 +1,3 @@
-console.log("myScript");
 import * as dataStorage from "./dataStorage.js";
 
 dataStorage.getInitialCompnaies(init);

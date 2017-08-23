@@ -1,4 +1,3 @@
-console.log("dataStorage");
 export function getCompanies() {
     let allCompanies = JSON.parse(localStorage.getItem('companies'));
     return allCompanies;
