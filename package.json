@@ -16,7 +16,7 @@
     "babel-preset-es2016": "^6.24.1"
   },
   "scripts": {
-    "build": "babel ./ES6 -d ./lib -w"
+    "build": "babel ./ES6 -d ./lib"
   },
   "repository": {
     "type": "git",

@@ -12,7 +12,6 @@ function init() {
 }
 
 function createNewElement(company, index, div) {
-
     let id = `company${index}`;
     let html =
         `<div class="card" id="${id}" data-company-url ="${company.DevByUrl}">                        
@@ -51,9 +50,7 @@ function createNewElement(company, index, div) {
 function showCompanies() {
     let div = document.getElementById('result');
     div.innerHTML = "";
-
     let companies = dataStorage.getCompanies();
-
     let filteredCompanies = companies.filter((company) => {
 
         if (company.Hidden === true) {
