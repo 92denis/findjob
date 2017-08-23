@@ -1,4 +1,6 @@
 language: node_js
 node_js:
   - "node"
-script: jshint myScript.js dataStorage.js
+script: 
+- jshint ES6/myScript.js ES6/dataStorage.js
+- npm run build
