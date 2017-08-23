@@ -1,6 +1,10 @@
-getInitialCompnaies(init);
+console.log("myScript");
+import * as dataStorage from "./dataStorage.js";
+
+dataStorage.getInitialCompnaies(init);
 
 function init() {
+    document.getElementById("search").onclick = showCompanies;
     showCompanies();
     updateSelect();
     getTagsFromCompanies();
@@ -48,7 +52,7 @@ function showCompanies() {
     let div = document.getElementById('result');
     div.innerHTML = "";
 
-    let companies = getCompanies();
+    let companies = dataStorage.getCompanies();
 
     let filteredCompanies = companies.filter((company) => {
 
@@ -75,16 +79,16 @@ function showCompanies() {
         let div = document.getElementById('result');
         createNewElement(company, index, div);
     });
-    countCompanies = document.getElementById("count");
+    let countCompanies = document.getElementById("count");
     countCompanies.innerHTML = `Найдено компаний: ${filteredCompanies.length}  из  ${companies.length}`;
 }
 
 function hiddenCompany(elem) {
     let card = elem.currentTarget.parentNode.parentNode;
     let attributeCards = card.getAttribute("data-company-url");
-    let сompany = getCompanyByDevUrl(attributeCards);
+    let сompany = dataStorage.getCompanyByDevUrl(attributeCards);
     сompany.Hidden = true;
-    updateCompany(сompany);
+    dataStorage.updateCompany(сompany);
     showCompanies();
 }
 
@@ -105,10 +109,10 @@ function addNoteAboutCompany(elem) {
     let card = elem.currentTarget.parentNode.parentNode;
     let newNote = card.childNodes[3].childNodes[17];
     let attributeCards = card.getAttribute("data-company-url");
-    let сompany = getCompanyByDevUrl(attributeCards);
+    let сompany = dataStorage.getCompanyByDevUrl(attributeCards);
     сompany.Note += newNote.value;
     newNote.value = " ";
-    updateCompany(сompany);
+    dataStorage.updateCompany(сompany);
     showCompanies();
 }
 
@@ -116,7 +120,7 @@ function editNoteAboutCompany(elem) {
     let card = elem.currentTarget.parentNode.parentNode;
     let newNote = card.childNodes[3].childNodes[17];
     let attributeCards = card.getAttribute("data-company-url");
-    let сompany = getCompanyByDevUrl(attributeCards);
+    let сompany = dataStorage.getCompanyByDevUrl(attributeCards);
     newNote.value = сompany.Note;
     card.childNodes[3].childNodes[21].style.display = 'none';
     card.childNodes[3].childNodes[23].style.display = 'inline-block';
@@ -126,16 +130,16 @@ function saveNoteAboutCompany(elem) {
     let card = elem.currentTarget.parentNode.parentNode;
     let newNote = card.childNodes[3].childNodes[17];
     let attributeCards = card.getAttribute("data-company-url");
-    let сompany = getCompanyByDevUrl(attributeCards);
+    let сompany = dataStorage.getCompanyByDevUrl(attributeCards);
     сompany.Note = newNote.value;
     card.childNodes[3].childNodes[21].style.display = 'inline-block';
     card.childNodes[3].childNodes[23].style.display = 'none';
-    updateCompany(сompany);
+    dataStorage.updateCompany(сompany);
     showCompanies();
 }
 
 function getTagsFromCompanies() {
-    let getTagsCompanies = removeWhiteSpacesFromTags(getCompanies());
+    let getTagsCompanies = removeWhiteSpacesFromTags(dataStorage.getCompanies());
     let myArray = createArrayTags();
     let arrayObjectTags = [];
 
@@ -155,7 +159,7 @@ function getTagsFromCompanies() {
 }
 
 function createArrayTags() {
-    let tags = removeWhiteSpacesFromTags(getCompanies());
+    let tags = removeWhiteSpacesFromTags(dataStorage.getCompanies());
     let myArray = new Set(tags);// создание массива эксклюзивных значений направлений
     myArray = Array.from(myArray);
     myArray.sort();
@@ -174,7 +178,7 @@ function removeWhiteSpacesFromTags(companies) {
 }
 
 function showHiddenCompanies() {
-    let companies = getCompanies();
+    let companies = dataStorage.getCompanies();
 
     let filteredCompanies = companies.filter((company) => {
         //searchByParam();
