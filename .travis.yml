@@ -4,3 +4,6 @@ node_js:
 script: 
 - jshint ES6/myScript.js ES6/dataStorage.js
 - npm run build
+branches:
+only:
+    - master
