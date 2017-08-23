@@ -1,3 +1,4 @@
+console.log("dataStorage");
 export function getCompanies() {
     let allCompanies = JSON.parse(localStorage.getItem('companies'));
     return allCompanies;
@@ -45,8 +46,7 @@ function ajaxGet(url, callback) {
             alert(xhr.status + ': ' + xhr.statusText);
         } else {
             let companiesJson = JSON.parse(xhr.responseText);
-            allCompanies = companiesJson;
-            let companies = deleteWhiteSpacesFromTags(allCompanies);
+            let companies = deleteWhiteSpacesFromTags(companiesJson);
 
             localStorage.setItem('companies', JSON.stringify(companies));
         }

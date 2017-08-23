@@ -4,11 +4,19 @@
   "description": "",
   "main": "dataStorage.js",
   "dependencies": {
-    "jshint": "^2.9.5"
+    "babel-polyfill": "^6.26.0",
+    "jshint": "^2.9.5",
+    "systemjs": "^0.20.18"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-es2016": "^6.24.1"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "babel ./ES6 -d ./lib -w"
   },
   "repository": {
     "type": "git",

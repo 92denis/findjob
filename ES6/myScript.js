@@ -1,8 +1,10 @@
-import * as dataStorage from "dataStorage";
+console.log("myScript");
+import * as dataStorage from "./dataStorage.js";
 
 dataStorage.getInitialCompnaies(init);
 
 function init() {
+    document.getElementById("search").onclick = showCompanies;
     showCompanies();
     updateSelect();
     getTagsFromCompanies();
@@ -77,7 +79,7 @@ function showCompanies() {
         let div = document.getElementById('result');
         createNewElement(company, index, div);
     });
-    countCompanies = document.getElementById("count");
+    let countCompanies = document.getElementById("count");
     countCompanies.innerHTML = `Найдено компаний: ${filteredCompanies.length}  из  ${companies.length}`;
 }
 
@@ -176,7 +178,7 @@ function removeWhiteSpacesFromTags(companies) {
 }
 
 function showHiddenCompanies() {
-    let companies = getCompanies();
+    let companies = dataStorage.getCompanies();
 
     let filteredCompanies = companies.filter((company) => {
         //searchByParam();
