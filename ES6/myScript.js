@@ -187,24 +187,17 @@ function showMoreCompanies() {
         }
         return true;
     });
-    if (filteredCompanies.length >= 50) {
-        for (let i = 0; i < 50; i++) {
-            companies.push(filteredCompanies[i]);
-            companies.forEach((company, index) => {
-                let div = document.getElementById('result');
-                createNewElement(company, index, div);
-            });
-        }
-    } else {
-        for (let i = 0; i < filteredCompanies.length; i++) {
-            companies.push(filteredCompanies[i]);
-            companies.forEach((company, index) => {
-                let div = document.getElementById('result');
-                createNewElement(company, index, div);
-            });
-        }
-
+    let n = filteredCompanies.length >= 50 ? 50 : filteredCompanies.length;
+    // let showCompaniesButton = document.getElementById("show");
+    for (let i = 0; i < n; i++) {
+        companies.push(filteredCompanies[i]);
+        companies.forEach((company, index) => {
+            let div = document.getElementById('result');
+            createNewElement(company, index, div);
+        });
+        // showCompaniesButton.innerText = `${n} из ${filteredCompanies.length},показать еще...`;
     }
+
     let countCompanies = document.getElementById("count");
     countCompanies.innerHTML = `Найдено компаний: ${filteredCompanies.length}  из  ${allCompanies.length}`;
 }
