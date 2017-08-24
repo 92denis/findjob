@@ -191,12 +191,13 @@ function showMoreCompanies() {
     // let showCompaniesButton = document.getElementById("show");
     for (let i = 0; i < n; i++) {
         companies.push(filteredCompanies[i]);
-        companies.forEach((company,index) => {
-            let div = document.getElementById('result');
-            createNewElement(company, index, div);
-        });
-        // showCompaniesButton.innerText = `${n} из ${filteredCompanies.length},показать еще...`;
     }
+    companies.forEach((company, index) => {
+        let div = document.getElementById('result');
+        createNewElement(company, index, div);
+    });
+    // showCompaniesButton.innerText = `${n} из ${filteredCompanies.length},показать еще...`;
+
 
     let countCompanies = document.getElementById("count");
     countCompanies.innerHTML = `Найдено компаний: ${filteredCompanies.length}  из  ${allCompanies.length}`;
