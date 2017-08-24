@@ -191,7 +191,7 @@ function showMoreCompanies() {
     // let showCompaniesButton = document.getElementById("show");
     for (let i = 0; i < n; i++) {
         companies.push(filteredCompanies[i]);
-        companies.forEach((company, index) => {
+        companies.forEach((company,index) => {
             let div = document.getElementById('result');
             createNewElement(company, index, div);
         });
