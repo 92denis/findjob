@@ -27,7 +27,7 @@ export function getInitialCompnaies(callback) {
     let allCompanies = getCompanies();
     if (allCompanies === null || allCompanies === undefined) {
         ajaxGet("companies.json", callback);
-        } else {
+    } else {
         callback();
     }
 }
@@ -35,7 +35,7 @@ export function getInitialCompnaies(callback) {
 function ajaxGet(url, callback) {
     let xhr = new XMLHttpRequest();
     xhr.open('GET', url, true);
-    xhr.onreadystatechange = function () { 
+    xhr.onreadystatechange = function () {
 
         if (xhr.readyState !== 4) {
             return;
@@ -45,13 +45,14 @@ function ajaxGet(url, callback) {
             alert(xhr.status + ': ' + xhr.statusText);
         } else {
             let companiesJson = JSON.parse(xhr.responseText);
-            let companies = deleteWhiteSpacesFromTags(companiesJson);
-
+            let allCompanies = deleteWhiteSpacesFromTags(companiesJson);
+            let companies = showCompanies(allCompanies);
             localStorage.setItem('companies', JSON.stringify(companies));
+            // document.getElementById("show").onclick = showMoreCompanies(allCompanies);
         }
         callback();
     };
-    xhr.send(); 
+    xhr.send();
 }
 
 function deleteWhiteSpacesFromTags(allCompanies) {
@@ -62,4 +63,19 @@ function deleteWhiteSpacesFromTags(allCompanies) {
         }
     }
     return allCompanies;
+}
+
+function showCompanies(company, length = 50) {
+    let companies = [];
+    for (let i = companies.length; i <  length; i++) {
+        companies.push(company[i]);
+    }
+    return companies;
+}
+
+export function showMoreCompanies(company) {
+    let companies = getCompanies();
+    let length = companies.length + 50;
+    let allCompanies = showCompanies(company, length);
+    localStorage.setItem('companies', JSON.stringify(allCompanies));
 }

@@ -35,7 +35,7 @@
         System.import('lib/myScript.js')
             .then(null, console.error.bind(console));
     </script>
-    
+
 </head>
 
 <body style="margin: 10px;">
@@ -68,10 +68,12 @@
                             <select class="form-control" id="selectTags"></select>
                         </div>
                     </div>
-                    <button id = "search" style="margin: 10px 0px;" class="col-lg-2 col-md-12 col-sm-12 btn btn-secondary btn-success" type="button">Найти!</button>
+                    <button id="search" style="margin: 10px 0px;" class="col-lg-2 col-md-12 col-sm-12 btn btn-secondary btn-success" type="button">Найти!</button>
                 </div>
                 <hr>
-                <p id="count"></p>
+
+                <p id="count"></p><button id="show" style="margin: 10px 0px;" class="col-lg-3 col-md-12 col-sm-12 btn btn-secondary btn-success"
+                    type="button">Показать еще 50 компаний</button>
                 <div id="result"></div>
 
             </div>
