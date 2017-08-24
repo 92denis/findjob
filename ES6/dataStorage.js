@@ -46,8 +46,8 @@ function ajaxGet(url, callback) {
         } else {
             let companiesJson = JSON.parse(xhr.responseText);
             let allCompanies = deleteWhiteSpacesFromTags(companiesJson);
-            let companies = showCompanies(allCompanies);
-            localStorage.setItem('companies', JSON.stringify(companies));
+            // let companies = showCompanies(allCompanies);
+            localStorage.setItem('companies', JSON.stringify(allCompanies));
             // document.getElementById("show").onclick = showMoreCompanies(allCompanies);
         }
         callback();
@@ -65,17 +65,17 @@ function deleteWhiteSpacesFromTags(allCompanies) {
     return allCompanies;
 }
 
-function showCompanies(company, length = 50) {
-    let companies = [];
-    for (let i = companies.length; i <  length; i++) {
-        companies.push(company[i]);
-    }
-    return companies;
-}
+// function showCompanies(company, length = 50) {
+//     let companies = [];
+//     for (let i = companies.length; i <  length; i++) {
+//         companies.push(company[i]);
+//     }
+//     return companies;
+// }
 
-export function showMoreCompanies(company) {
-    let companies = getCompanies();
-    let length = companies.length + 50;
-    let allCompanies = showCompanies(company, length);
-    localStorage.setItem('companies', JSON.stringify(allCompanies));
-}
+// export function showMoreCompanies(company) {
+//     let companies = getCompanies();
+//     let length = companies.length + 50;
+//     let allCompanies = showCompanies(company, length);
+//     localStorage.setItem('companies', JSON.stringify(allCompanies));
+// }
