@@ -49,34 +49,7 @@ function createNewElement(company, index, div) {
 function showCompanies() {
     let div = document.getElementById('result');
     div.innerHTML = "";
-    let companies = dataStorage.getCompanies();
-    let filteredCompanies = companies.filter((company) => {
-
-        if (company.Hidden === true) {
-            // hidden company
-            return false;
-        }
-
-        let searchStringName = document.getElementById("searchByName").value;
-        let searchStringTags = document.getElementById("selectTags").value;
-
-        if (searchStringName && company.Name.indexOf(searchStringName) === -1) {
-            // name doesn't match
-            return false;
-        }
-        if (searchStringTags && company.Tags.includes(searchStringTags) === false) {
-            return false;
-
-        }
-        return true;
-    });
-
-    filteredCompanies.forEach((company, index) => {
-        let div = document.getElementById('result');
-        createNewElement(company, index, div);
-    });
-    let countCompanies = document.getElementById("count");
-    countCompanies.innerHTML = `Найдено компаний: ${filteredCompanies.length}  из  ${companies.length}`;
+    showMoreCompanies();
 }
 
 function hiddenCompany(elem) {
@@ -190,4 +163,41 @@ function showHiddenCompanies() {
         let div = document.getElementById("hiddenCompanies");
         createNewElement(company, index, div);
     });
+}
+
+function showMoreCompanies() {
+    let companies = [];
+    let allCompanies = dataStorage.getCompanies();
+    let filteredCompanies = allCompanies.filter((company) => {
+        if (company.Hidden === true) {
+            // hidden company
+            return false;
+        }
+
+        let searchStringName = document.getElementById("searchByName").value;
+        let searchStringTags = document.getElementById("selectTags").value;
+
+        if (searchStringName && company.Name.indexOf(searchStringName) === -1) {
+            // name doesn't match
+            return false;
+        }
+        if (searchStringTags && company.Tags.includes(searchStringTags) === false) {
+            return false;
+
+        }
+        return true;
+    });
+    let n = filteredCompanies.length >= 50 ? 50 : filteredCompanies.length;
+    // let showCompaniesButton = document.getElementById("show");
+    for (let i = 0; i < n; i++) {
+        companies.push(filteredCompanies[i]);
+        companies.forEach((company, index) => {
+            let div = document.getElementById('result');
+            createNewElement(company, index, div);
+        });
+        // showCompaniesButton.innerText = `${n} из ${filteredCompanies.length},показать еще...`;
+    }
+
+    let countCompanies = document.getElementById("count");
+    countCompanies.innerHTML = `Найдено компаний: ${filteredCompanies.length}  из  ${allCompanies.length}`;
 }
