@@ -2,7 +2,7 @@ language: node_js
 node_js:
   - "node"
 script: 
-# - jshint ES6/myScript.js ES6/dataStorage.js
+- jshint ES6/myScript.js ES6/dataStorage.js
 - npm run build
 branches:
 only:
