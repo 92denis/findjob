@@ -167,7 +167,25 @@ function showHiddenCompanies() {
 function showMoreCompanies() {
     let companies = [];
     let allCompanies = dataStorage.getCompanies();
-    let filteredCompanies = allCompanies.filter((company) => {
+    let filteredCompanies = filtredCompanies(allCompanies);
+    let n = filteredCompanies.length >= 50 ? 50 : filteredCompanies.length;
+    // let showCompaniesButton = document.getElementById("show");
+    for (let i = 0; i < n; i++) {
+        companies.push(filteredCompanies[i]);
+    }
+    companies.forEach((company, index) => {
+        let div = document.getElementById('result');
+        createNewElement(company, index, div);
+    });
+    // showCompaniesButton.innerText = `${n} из ${filteredCompanies.length},показать еще...`;
+
+
+    let countCompanies = document.getElementById("count");
+    countCompanies.innerHTML = `Найдено компаний: ${filteredCompanies.length}  из  ${allCompanies.length}`;
+}
+
+function filtredCompanies(companies){
+    let filteredCompanies = companies.filter((company) => {
         if (company.Hidden === true) {
             // hidden company
             return false;
@@ -186,18 +204,5 @@ function showMoreCompanies() {
         }
         return true;
     });
-    let n = filteredCompanies.length >= 50 ? 50 : filteredCompanies.length;
-    // let showCompaniesButton = document.getElementById("show");
-    for (let i = 0; i < n; i++) {
-        companies.push(filteredCompanies[i]);
-    }
-    companies.forEach((company, index) => {
-        let div = document.getElementById('result');
-        createNewElement(company, index, div);
-    });
-    // showCompaniesButton.innerText = `${n} из ${filteredCompanies.length},показать еще...`;
-
-
-    let countCompanies = document.getElementById("count");
-    countCompanies.innerHTML = `Найдено компаний: ${filteredCompanies.length}  из  ${allCompanies.length}`;
+    return  filteredCompanies;
 }
