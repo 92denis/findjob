@@ -108,7 +108,7 @@ function saveNoteAboutCompany(elem) {
 }
 
 function getTagsFromCompanies() {
-    let getTagsCompanies = removeWhiteSpacesFromTags(dataStorage.getCompanies());
+    let getTagsCompanies = getTags(dataStorage.getCompanies());
     let myArray = createArrayTags();
     let arrayObjectTags = [];
 
@@ -128,18 +128,17 @@ function getTagsFromCompanies() {
 }
 
 function createArrayTags() {
-    let tags = removeWhiteSpacesFromTags(dataStorage.getCompanies());
+    let tags = getTags(dataStorage.getCompanies());
     let myArray = new Set(tags);// создание массива эксклюзивных значений направлений
     myArray = Array.from(myArray);
     myArray.sort();
     return myArray;
 }
 
-function removeWhiteSpacesFromTags(companies) {
+function getTags(companies) {
     let tags = [];
     companies.forEach((company) => {
         for (let i = 0; i < company.Tags.length; i++) {
-            company.Tags[i] = company.Tags[i].trim();
             tags.push(company.Tags[i]);
         }
     });
