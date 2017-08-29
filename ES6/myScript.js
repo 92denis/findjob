@@ -42,8 +42,8 @@ function createNewElement(company, index, div) {
 
     div.append(newElement);
     if (company.Note === " ") {
-        $('.edit').css({ 'display': 'none' });
-        $('.save').css({ 'display': 'none' });
+        $(newElement).find('.edit').css({ 'display': 'none' });
+        $(newElement).find('.save').css({ 'display': 'none' });
     }
 }
 
@@ -99,7 +99,7 @@ function editNoteAboutCompany(elem) {
 function saveNoteAboutCompany(elem) {
     let card = elem.currentTarget.parentNode.parentNode;
     let newNote = card.childNodes[3].childNodes[17];
-    let attributeCards = $(".data-company-url", ".card");
+    let attributeCards = $(card).attr("data-company-url");
     let сompany = dataStorage.getCompanyByDevUrl(attributeCards);
     сompany.Note = newNote.value;
     card.childNodes[3].childNodes[21].style.display = 'inline-block';
