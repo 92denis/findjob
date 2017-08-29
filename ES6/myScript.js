@@ -25,24 +25,23 @@ function createNewElement(company, index, div) {
              <p class="card-text">Адрес: ${company.Offices}</p>
              <label> Заметка:<p class="card-text">${company.Note} </p></label>
               <textarea class="form-control" rows="3" id="comment"></textarea> 
-              <button style="margin: 10px 0px;" class="col-lg-2 col-md-12 col-sm-12 btn btn-secondary" type="button">Добавить заметку</button>
-              <button style="margin: 10px 0px;" class="col-lg-3 col-md-12 col-sm-12 btn btn-secondary" type="button">Редактировать</button>
-             <button style="margin: 10px 0px; display: none" class="col-lg-3 col-md-12 col-sm-12 btn btn-secondary" type="button">Сохранить</button>
-             <button class="btn btn-primary" >Скрыть</button>
+              <button style="margin: 10px 0px;" class="col-lg-2 col-md-12 col-sm-12 btn btn-secondary" id ="add" type="button">Добавить заметку</button>
+              <button style="margin: 10px 0px;" class="col-lg-3 col-md-12 col-sm-12 btn btn-secondary" id="edit" type="button">Редактировать</button>
+             <button style="margin: 10px 0px; display: none" class="col-lg-3 col-md-12 col-sm-12 btn btn-secondary" id = "save" type="button">Сохранить</button>
+             <button class="btn btn-primary" id ="hide" >Скрыть</button>
          </div>
      </div>`;
 
     let newElement = document.createElement('div');
     newElement.innerHTML = html;
 
-    let doc = div.appendChild(newElement);
-    doc.getElementsByClassName('btn')[2].onclick = saveNoteAboutCompany;
-    doc.getElementsByClassName('btn')[0].onclick = addNoteAboutCompany;
-    doc.getElementsByClassName('btn')[1].onclick = editNoteAboutCompany;
-    doc.getElementsByClassName('btn-primary')[0].onclick = hiddenCompany;
+    $('#save').onclick = saveNoteAboutCompany;
+    $('#add').onclick = addNoteAboutCompany;
+    $('#edit').onclick = editNoteAboutCompany;
+    $('#hide').onclick = hiddenCompany;
     if (company.Note === " ") {
-        doc.getElementsByClassName('btn')[1].style.display = 'none';
-        doc.getElementsByClassName('btn')[2].style.display = 'none';
+        $('#edit').style.display = 'none';
+        $('#save').style.display = 'none';
     }
 }
 
@@ -52,9 +51,8 @@ function showCompanies() {
     showMoreCompanies();
 }
 
-function hiddenCompany(elem) {
-    let card = elem.currentTarget.parentNode.parentNode;
-    let attributeCards = card.getAttribute("data-company-url");
+function hiddenCompany() {
+    let attributeCards = $(".data-company-url", ".card");
     let сompany = dataStorage.getCompanyByDevUrl(attributeCards);
     сompany.Hidden = true;
     dataStorage.updateCompany(сompany);
@@ -74,10 +72,9 @@ function updateSelect() {
     }
 }
 
-function addNoteAboutCompany(elem) {
-    let card = elem.currentTarget.parentNode.parentNode;
-    let newNote = card.childNodes[3].childNodes[17];
-    let attributeCards = card.getAttribute("data-company-url");
+function addNoteAboutCompany() {
+    let newNote = $("#comment");
+    let attributeCards = $(".data-company-url", ".card");
     let сompany = dataStorage.getCompanyByDevUrl(attributeCards);
     сompany.Note += newNote.value;
     newNote.value = " ";
@@ -85,24 +82,22 @@ function addNoteAboutCompany(elem) {
     showCompanies();
 }
 
-function editNoteAboutCompany(elem) {
-    let card = elem.currentTarget.parentNode.parentNode;
-    let newNote = card.childNodes[3].childNodes[17];
-    let attributeCards = card.getAttribute("data-company-url");
+function editNoteAboutCompany() {
+    let newNote = $("#comment");
+    let attributeCards = $(".data-company-url", ".card");
     let сompany = dataStorage.getCompanyByDevUrl(attributeCards);
     newNote.value = сompany.Note;
-    card.childNodes[3].childNodes[21].style.display = 'none';
-    card.childNodes[3].childNodes[23].style.display = 'inline-block';
+    $('#edit').style.display = 'none';
+    $('#save').style.display = 'inline-block';
 
 }
-function saveNoteAboutCompany(elem) {
-    let card = elem.currentTarget.parentNode.parentNode;
-    let newNote = card.childNodes[3].childNodes[17];
-    let attributeCards = card.getAttribute("data-company-url");
+function saveNoteAboutCompany() {
+    let newNote = $("#comment");
+    let attributeCards = $(".data-company-url", ".card");
     let сompany = dataStorage.getCompanyByDevUrl(attributeCards);
     сompany.Note = newNote.value;
-    card.childNodes[3].childNodes[21].style.display = 'inline-block';
-    card.childNodes[3].childNodes[23].style.display = 'none';
+    $('#edit').style.display = 'inline-block';
+    $('#save').style.display = 'none';
     dataStorage.updateCompany(сompany);
     showCompanies();
 }
@@ -159,7 +154,7 @@ function showHiddenCompanies() {
     });
 
     filteredCompanies.forEach((company, index) => {
-        let div = document.getElementById("hiddenCompanies");
+        let div = $("#hiddenCompanies");
         createNewElement(company, index, div);
     });
 }
@@ -174,25 +169,25 @@ function showMoreCompanies() {
         companies.push(filteredCompanies[i]);
     }
     companies.forEach((company, index) => {
-        let div = document.getElementById('result');
+        let div =$('#result');
         createNewElement(company, index, div);
     });
     // showCompaniesButton.innerText = `${n} из ${filteredCompanies.length},показать еще...`;
 
 
-    let countCompanies = document.getElementById("count");
+    let countCompanies = $("#count");
     countCompanies.innerHTML = `Найдено компаний: ${filteredCompanies.length}  из  ${allCompanies.length}`;
 }
 
-function filtredCompanies(companies){
+function filtredCompanies(companies) {
     let filteredCompanies = companies.filter((company) => {
         if (company.Hidden === true) {
             // hidden company
             return false;
         }
 
-        let searchStringName = document.getElementById("searchByName").value;
-        let searchStringTags = document.getElementById("selectTags").value;
+        let searchStringName =$("#searchByName").value;
+        let searchStringTags = $("#selectTags").value;
 
         if (searchStringName && company.Name.indexOf(searchStringName) === -1) {
             // name doesn't match
@@ -204,5 +199,5 @@ function filtredCompanies(companies){
         }
         return true;
     });
-    return  filteredCompanies;
+    return filteredCompanies;
 }
