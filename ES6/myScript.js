@@ -7,11 +7,11 @@ function init() {
     updateSelect();
     getTagsFromCompanies();
     showHiddenCompanies();
-    
+
     $("#search").on('click', showCompanies);
     $('#home').on('click', '.save', saveNoteAboutCompany);
     $('#home').on('click', '.add', addNoteAboutCompany);
-    $('#home').on('click','.edit', editNoteAboutCompany);
+    $('#home').on('click', '.edit', editNoteAboutCompany);
     $('#home').on('click', '.hide', hiddenCompany);
 }
 
@@ -30,22 +30,21 @@ function createNewElement(company, index, div) {
              <p class="card-text">Адрес: ${company.Offices}</p>
              <label> Заметка:<p class="card-text">${company.Note} </p></label>
               <textarea class="form-control" rows="3" id="comment"></textarea> 
-              <button style="margin: 10px 0px;" class="add col-lg-2 col-md-12 col-sm-12 btn btn-secondary" id ="add" type="button">Добавить заметку</button>
-              <button style="margin: 10px 0px;" class="edit col-lg-3 col-md-12 col-sm-12 btn btn-secondary" id="edit" type="button">Редактировать</button>
-             <button style="margin: 10px 0px; display: none" class="save col-lg-3 col-md-12 col-sm-12 btn btn-secondary" id = "save" type="button">Сохранить</button>
-             <button class="btn btn-primary hide" id ="hide" >Скрыть</button>
+              <button style="margin: 10px 0px;" class="add col-lg-2 col-md-12 col-sm-12 btn btn-secondary" type="button">Добавить заметку</button>
+              <button style="margin: 10px 0px;" class="edit col-lg-3 col-md-12 col-sm-12 btn btn-secondary" type="button">Редактировать</button>
+             <button style="margin: 10px 0px; display: none" class="save col-lg-3 col-md-12 col-sm-12 btn btn-secondary"  type="button">Сохранить</button>
+             <button class="btn btn-primary hide">Скрыть</button>
          </div>
      </div>`;
 
     let newElement = document.createElement('div');
     newElement.innerHTML = html;
-    
+
     div.append(newElement);
     if (company.Note === " ") {
-        $('.edit').css({'display' : 'none'});
-        $('.save').css({'display' : 'none'});
+        $('.edit').css({ 'display': 'none' });
+        $('.save').css({ 'display': 'none' });
     }
-
 }
 
 function showCompanies() {
@@ -54,8 +53,9 @@ function showCompanies() {
     showMoreCompanies();
 }
 
-function hiddenCompany() {
-    let attributeCards = $(".card").attr("data-company-url");
+function hiddenCompany(elem) {
+    let card = elem.currentTarget.parentNode.parentNode;
+    let attributeCards = $(card).attr("data-company-url");
     let сompany = dataStorage.getCompanyByDevUrl(attributeCards);
     сompany.Hidden = true;
     dataStorage.updateCompany(сompany);
@@ -75,32 +75,36 @@ function updateSelect() {
     }
 }
 
-function addNoteAboutCompany() {
-    let newNote = $("#comment");
-    let attributeCards = $(".card").attr("data-company-url");
+function addNoteAboutCompany(elem) {
+    let card = elem.currentTarget.parentNode.parentNode;
+    let newNote = card.childNodes[3].childNodes[17];
+    let attributeCards = $(card).attr("data-company-url");
     let сompany = dataStorage.getCompanyByDevUrl(attributeCards);
-    сompany.Note += newNote.val();
-    newNote.val(" ");
+    сompany.Note += newNote.value;
+    newNote.value = " ";
     dataStorage.updateCompany(сompany);
     showCompanies();
 }
 
-function editNoteAboutCompany() {
-    let newNote = $("#comment");
-    let attributeCards = $(".card").attr("data-company-url");
+function editNoteAboutCompany(elem) {
+    let card = elem.currentTarget.parentNode.parentNode;
+    let newNote = card.childNodes[3].childNodes[17];
+    let attributeCards = $(card).attr("data-company-url");
     let сompany = dataStorage.getCompanyByDevUrl(attributeCards);
-    newNote.val(сompany.Note);
-    $('.edit').css({'display' : 'none'});
-    $('.save').css({'display' :  'inline-block'});
+    newNote.value = сompany.Note;
+    card.childNodes[3].childNodes[21].style.display = 'none';
+    card.childNodes[3].childNodes[23].style.display = 'inline-block';
 
 }
-function saveNoteAboutCompany() {
-    let newNote = $("#comment");
-    let attributeCards = $("[data-company-url]");
+function saveNoteAboutCompany(elem) {
+    let card = elem.currentTarget.parentNode.parentNode;
+    let newNote = card.childNodes[3].childNodes[17];
+    let attributeCards = $(".data-company-url", ".card");
     let сompany = dataStorage.getCompanyByDevUrl(attributeCards);
-    сompany.Note = newNote.val();
-    $('.edit').css({'display' : 'inline-block'});
-    $('.save').css({'display' : 'none'});
+    сompany.Note = newNote.value;
+    card.childNodes[3].childNodes[21].style.display = 'inline-block';
+    card.childNodes[3].childNodes[23].style.display = 'none';
+
     dataStorage.updateCompany(сompany);
     showCompanies();
 }
