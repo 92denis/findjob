@@ -34,7 +34,7 @@ function createNewElement(company, index, div) {
 
     let newElement = document.createElement('div');
     newElement.innerHTML = html;
-
+    div.appendChild(newElement);
     $('#save').onclick = saveNoteAboutCompany;
     $('#add').onclick = addNoteAboutCompany;
     $('#edit').onclick = editNoteAboutCompany;
