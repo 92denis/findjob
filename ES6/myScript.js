@@ -3,17 +3,16 @@ import * as dataStorage from "./dataStorage.js";
 dataStorage.getInitialCompnaies(init);
 
 function init() {
-
-    $("#search").click = showCompanies;
-    $('.save').on('click', saveNoteAboutCompany);
-    $('.add').on('click', addNoteAboutCompany);
-    $('.edit').on('click', editNoteAboutCompany);
-    $('.hide').on('click', hiddenCompany);
-
     showCompanies();
     updateSelect();
     getTagsFromCompanies();
     showHiddenCompanies();
+    
+    $("#search").on('click', showCompanies);
+    $('#home').on('click', '.save', saveNoteAboutCompany);
+    $('#home').on('click', '.add', addNoteAboutCompany);
+    $('#home').on('click','.edit', editNoteAboutCompany);
+    $('#home').on('click', '.hide', hiddenCompany);
 }
 
 function createNewElement(company, index, div) {
@@ -40,23 +39,23 @@ function createNewElement(company, index, div) {
 
     let newElement = document.createElement('div');
     newElement.innerHTML = html;
-    div.appendChild(newElement);
-
+    
+    div.append(newElement);
     if (company.Note === " ") {
-        $('.edit').style.display = 'none';
-        $('.save').style.display = 'none';
+        $('.edit').css({'display' : 'none'});
+        $('.save').css({'display' : 'none'});
     }
 
 }
 
 function showCompanies() {
     let div = $('#result');
-    div.innerHTML = "";
+    div.html(" ");
     showMoreCompanies();
 }
 
 function hiddenCompany() {
-    let attributeCards = $("data-company-url");
+    let attributeCards = $(".card").attr("data-company-url");
     let сompany = dataStorage.getCompanyByDevUrl(attributeCards);
     сompany.Hidden = true;
     dataStorage.updateCompany(сompany);
@@ -78,30 +77,30 @@ function updateSelect() {
 
 function addNoteAboutCompany() {
     let newNote = $("#comment");
-    let attributeCards = $(".data-company-url", ".card");
+    let attributeCards = $(".card").attr("data-company-url");
     let сompany = dataStorage.getCompanyByDevUrl(attributeCards);
-    сompany.Note += newNote.value;
-    newNote.value = " ";
+    сompany.Note += newNote.val();
+    newNote.val(" ");
     dataStorage.updateCompany(сompany);
     showCompanies();
 }
 
 function editNoteAboutCompany() {
     let newNote = $("#comment");
-    let attributeCards = $("data-company-url");
+    let attributeCards = $(".card").attr("data-company-url");
     let сompany = dataStorage.getCompanyByDevUrl(attributeCards);
-    newNote.value = сompany.Note;
-    $('#edit').style.display = 'none';
-    $('#save').style.display = 'inline-block';
+    newNote.val(сompany.Note);
+    $('.edit').css({'display' : 'none'});
+    $('.save').css({'display' :  'inline-block'});
 
 }
 function saveNoteAboutCompany() {
     let newNote = $("#comment");
-    let attributeCards = $(".data-company-url");
+    let attributeCards = $("[data-company-url]");
     let сompany = dataStorage.getCompanyByDevUrl(attributeCards);
-    сompany.Note = newNote.value;
-    $('#edit').style.display = 'inline-block';
-    $('#save').style.display = 'none';
+    сompany.Note = newNote.val();
+    $('.edit').css({'display' : 'inline-block'});
+    $('.save').css({'display' : 'none'});
     dataStorage.updateCompany(сompany);
     showCompanies();
 }
@@ -180,7 +179,7 @@ function showMoreCompanies() {
 
 
     let countCompanies = $("#count");
-    countCompanies.innerHTML = `Найдено компаний: ${filteredCompanies.length}  из  ${allCompanies.length}`;
+    countCompanies.html(`Найдено компаний: ${filteredCompanies.length}  из  ${allCompanies.length}`);
 }
 
 function filtredCompanies(companies) {
@@ -190,8 +189,8 @@ function filtredCompanies(companies) {
             return false;
         }
 
-        let searchStringName = $("#searchByName").value;
-        let searchStringTags = $("#selectTags").value;
+        let searchStringName = $("#searchByName").val();
+        let searchStringTags = $("#selectTags").val();
 
         if (searchStringName && company.Name.indexOf(searchStringName) === -1) {
             // name doesn't match
