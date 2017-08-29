@@ -3,7 +3,13 @@ import * as dataStorage from "./dataStorage.js";
 dataStorage.getInitialCompnaies(init);
 
 function init() {
-    document.getElementById("search").onclick = showCompanies;
+
+    $("#search").click = showCompanies;
+    $('.save').on('click', saveNoteAboutCompany);
+    $('.add').on('click', addNoteAboutCompany);
+    $('.edit').on('click', editNoteAboutCompany);
+    $('.hide').on('click', hiddenCompany);
+
     showCompanies();
     updateSelect();
     getTagsFromCompanies();
@@ -25,34 +31,32 @@ function createNewElement(company, index, div) {
              <p class="card-text">Адрес: ${company.Offices}</p>
              <label> Заметка:<p class="card-text">${company.Note} </p></label>
               <textarea class="form-control" rows="3" id="comment"></textarea> 
-              <button style="margin: 10px 0px;" class="col-lg-2 col-md-12 col-sm-12 btn btn-secondary" id ="add" type="button">Добавить заметку</button>
-              <button style="margin: 10px 0px;" class="col-lg-3 col-md-12 col-sm-12 btn btn-secondary" id="edit" type="button">Редактировать</button>
-             <button style="margin: 10px 0px; display: none" class="col-lg-3 col-md-12 col-sm-12 btn btn-secondary" id = "save" type="button">Сохранить</button>
-             <button class="btn btn-primary" id ="hide" >Скрыть</button>
+              <button style="margin: 10px 0px;" class="add col-lg-2 col-md-12 col-sm-12 btn btn-secondary" id ="add" type="button">Добавить заметку</button>
+              <button style="margin: 10px 0px;" class="edit col-lg-3 col-md-12 col-sm-12 btn btn-secondary" id="edit" type="button">Редактировать</button>
+             <button style="margin: 10px 0px; display: none" class="save col-lg-3 col-md-12 col-sm-12 btn btn-secondary" id = "save" type="button">Сохранить</button>
+             <button class="btn btn-primary hide" id ="hide" >Скрыть</button>
          </div>
      </div>`;
 
     let newElement = document.createElement('div');
     newElement.innerHTML = html;
     div.appendChild(newElement);
-    $('#save').onclick = saveNoteAboutCompany;
-    $('#add').onclick = addNoteAboutCompany;
-    $('#edit').onclick = editNoteAboutCompany;
-    $('#hide').onclick = hiddenCompany;
+
     if (company.Note === " ") {
-        $('#edit').style.display = 'none';
-        $('#save').style.display = 'none';
+        $('.edit').style.display = 'none';
+        $('.save').style.display = 'none';
     }
+
 }
 
 function showCompanies() {
-    let div = document.getElementById('result');
+    let div = $('#result');
     div.innerHTML = "";
     showMoreCompanies();
 }
 
 function hiddenCompany() {
-    let attributeCards = $(".data-company-url", ".card");
+    let attributeCards = $("data-company-url");
     let сompany = dataStorage.getCompanyByDevUrl(attributeCards);
     сompany.Hidden = true;
     dataStorage.updateCompany(сompany);
@@ -84,7 +88,7 @@ function addNoteAboutCompany() {
 
 function editNoteAboutCompany() {
     let newNote = $("#comment");
-    let attributeCards = $(".data-company-url", ".card");
+    let attributeCards = $("data-company-url");
     let сompany = dataStorage.getCompanyByDevUrl(attributeCards);
     newNote.value = сompany.Note;
     $('#edit').style.display = 'none';
@@ -93,7 +97,7 @@ function editNoteAboutCompany() {
 }
 function saveNoteAboutCompany() {
     let newNote = $("#comment");
-    let attributeCards = $(".data-company-url", ".card");
+    let attributeCards = $(".data-company-url");
     let сompany = dataStorage.getCompanyByDevUrl(attributeCards);
     сompany.Note = newNote.value;
     $('#edit').style.display = 'inline-block';
@@ -169,7 +173,7 @@ function showMoreCompanies() {
         companies.push(filteredCompanies[i]);
     }
     companies.forEach((company, index) => {
-        let div =$('#result');
+        let div = $('#result');
         createNewElement(company, index, div);
     });
     // showCompaniesButton.innerText = `${n} из ${filteredCompanies.length},показать еще...`;
@@ -186,7 +190,7 @@ function filtredCompanies(companies) {
             return false;
         }
 
-        let searchStringName =$("#searchByName").value;
+        let searchStringName = $("#searchByName").value;
         let searchStringTags = $("#selectTags").value;
 
         if (searchStringName && company.Name.indexOf(searchStringName) === -1) {
