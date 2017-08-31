@@ -27,8 +27,7 @@ export function updateCompany(сompany) {
 
 export function getInitialCompnaies(callback) {
     let ajaxCallback = function (data) {
-        let companiesJson = JSON.parse(data);
-        let allCompanies = deleteWhiteSpacesFromTags(companiesJson);
+        let allCompanies = deleteWhiteSpacesFromTags(data);
         localStorage.setItem('companies', JSON.stringify(allCompanies));
         callback();
     };
@@ -36,31 +35,12 @@ export function getInitialCompnaies(callback) {
     let allCompanies = getCompanies();
 
     if (allCompanies === null || allCompanies === undefined) {
-        ajaxGet("companies.json", ajaxCallback);
+        $.get("companies.json", ajaxCallback);
 
     } else {
         callback();
     }
 }
-
-function ajaxGet(url, callback) {
-    let xhr = new XMLHttpRequest();
-    xhr.open('GET', url, true);
-    xhr.onreadystatechange = function () {
-
-        if (xhr.readyState !== 4) {
-            return;
-        }
-
-        if (xhr.status !== 200) {
-            alert(xhr.status + ': ' + xhr.statusText);
-        } else {
-            callback(xhr.responseText);
-        }
-    };
-    xhr.send();
-}
-
 
 function deleteWhiteSpacesFromTags(allCompanies) {
     for (let i = allCompanies.length; i--;) {
