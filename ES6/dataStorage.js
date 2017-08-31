@@ -5,6 +5,7 @@ export function getCompanies() {
 
 export function getCompanyByDevUrl(id) {
     let companies = getCompanies();
+
     for (let i = 0; i < companies.length; i++) {
         if (id === companies[i].DevByUrl) {
             return companies[i];
@@ -14,6 +15,7 @@ export function getCompanyByDevUrl(id) {
 
 export function updateCompany(сompany) {
     let companies = getCompanies();
+
     for (let i = 0; i < companies.length; i++) {
         if (companies[i].DevByUrl === сompany.DevByUrl) {
             companies.splice(i, 1, сompany);
@@ -22,20 +24,23 @@ export function updateCompany(сompany) {
     }
     localStorage.setItem('companies', JSON.stringify(companies));
 }
+
 export function getInitialCompnaies(callback) {
+    let ajaxCallback = function (data) {
+        let companiesJson = JSON.parse(data);
+        let allCompanies = deleteWhiteSpacesFromTags(companiesJson);
+        localStorage.setItem('companies', JSON.stringify(allCompanies));
+        callback();
+    };
+
     let allCompanies = getCompanies();
+
     if (allCompanies === null || allCompanies === undefined) {
         ajaxGet("companies.json", ajaxCallback);
-        callback();
+
     } else {
         callback();
     }
-}
-
-function ajaxCallback(data) {
-    let companiesJson = JSON.parse(data);
-    let allCompanies = deleteWhiteSpacesFromTags(companiesJson);
-    localStorage.setItem('companies', JSON.stringify(allCompanies));
 }
 
 function ajaxGet(url, callback) {
@@ -52,7 +57,6 @@ function ajaxGet(url, callback) {
         } else {
             callback(xhr.responseText);
         }
-        callback();
     };
     xhr.send();
 }
