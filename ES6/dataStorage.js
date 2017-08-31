@@ -22,39 +22,40 @@ export function updateCompany(сompany) {
     }
     localStorage.setItem('companies', JSON.stringify(companies));
 }
-
-let allCompanies = getCompanies();
-if (allCompanies === null || allCompanies === undefined) {
-    ajaxGet("companies.json", ajaxCallback);
-} else {
-    callback();
+export function getInitialCompnaies(callback) {
+    let allCompanies = getCompanies();
+    if (allCompanies === null || allCompanies === undefined) {
+        ajaxGet("companies.json", ajaxCallback);
+    } else {
+        callback();
+    }
 }
 
-function ajaxCallback (data) {
-let companiesJson = JSON.parse(data);
-let allCompanies = deleteWhiteSpacesFromTags(companiesJson);
-localStorage.setItem('companies', JSON.stringify(allCompanies));
+function ajaxCallback(data) {
+    let companiesJson = JSON.parse(data);
+    let allCompanies = deleteWhiteSpacesFromTags(companiesJson);
+    localStorage.setItem('companies', JSON.stringify(allCompanies));
 }
 
 function ajaxGet(url, callback) {
-let xhr = new XMLHttpRequest();
-xhr.open('GET', url, true);
-xhr.onreadystatechange = function () {
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET', url, true);
+    xhr.onreadystatechange = function () {
 
-    if (xhr.readyState !== 4) {
-        return;
-    }
+        if (xhr.readyState !== 4) {
+            return;
+        }
 
-    if (xhr.status !== 200) {
-        alert(xhr.status + ': ' + xhr.statusText);
-    } else {
-        callback(xhr.responseText);
-    }
-    callback();
-};
-xhr.send();
+        if (xhr.status !== 200) {
+            alert(xhr.status + ': ' + xhr.statusText);
+        } else {
+            callback(xhr.responseText);
+        }
+        callback();
+    };
+    xhr.send();
 }
-}
+
 
 function deleteWhiteSpacesFromTags(allCompanies) {
     for (let i = allCompanies.length; i--;) {
