@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ"
+        crossorigin="anonymous">
+    <script src=https://code.jquery.com/jquery-2.x-git.min.js></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
+        crossorigin="anonymous"></script>
+
+    <script src="vendor/system.js"></script>
+    <script src="vendor/polyfill.js"></script>
+    <script>
+        // set our baseURL reference path
+        System.config({
+            packages: {
+                js: {
+                    format: 'register',
+                    defaultExtension: 'js'
+                },
+            },
+            meta: {
+                // our modules have been transpiled to commonJS
+                'lib/*': { format: 'cjs' }
+            }
+        });
+
+        System.import('lib/myScript.js')
+            .then(null, console.error.bind(console));
+    </script>
+
+</head>
+
+<body style="margin: 10px;">
+    <div class="container">
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" href="#home" role="tab" data-toggle="tab">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#hiddenCompanies" role="tab" data-toggle="tab">Hidden Companies</a>
+            </li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="home">
+
+                <br>
+                <P>Выберите параметр поиска:</P>
+                <div class="row">
+                    <div style="margin: 10px 0px;" class="col-lg-5 col-md-6 col-sm-12">
+                        <div class="input-group">
+                            <span class="input-group-addon">Название </span>
+                            <input type="text" class="form-control" id='searchByName' placeholder="Введите название компании..." aria-label="Text input with checkbox">
+                        </div>
+                    </div>
+                    <div style="margin: 10px 0px;" class="col-lg-5 col-md-6 col-sm-12">
+                        <div class="input-group">
+                            <span class="input-group-addon">Направление</span>
+                            <select class="form-control" id="selectTags"></select>
+                        </div>
+                    </div>
+                    <button id="search" style="margin: 10px 0px;" class="col-lg-2 col-md-12 col-sm-12 btn btn-secondary btn-success" type="button">Найти!</button>
+                </div>
+                <hr>
+
+                <p id="count"></p>
+                <div id="result"></div>
+                <!--<button id="show" style="margin: 10px 0px;" class="col-lg-3 col-md-12 col-sm-12 btn btn-secondary btn-success"
+                    type="button"></button>-->
+
+            </div>
+            <div style="margin: 10px;" role="tabpanel" class="tab-pane fade" id="hiddenCompanies"></div>
+
+        </div>
+
+
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,9 @@
+{
+  "curly": true,
+  "eqeqeq": true,
+  "esversion": 6,
+  "browser": true, 
+  "nocomma": true,
+  "varstmt": true,
+  "unused":true
+}
